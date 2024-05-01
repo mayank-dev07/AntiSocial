@@ -17,7 +17,9 @@ const Profile = () => {
 
   const isLog = async () => {
     const { profile, err } = await getUserProfile(use);
-    setProfile(profile.data);
+    if (profile.status == 200) {
+      setProfile(profile?.data);
+    }
   };
 
   useEffect(() => {

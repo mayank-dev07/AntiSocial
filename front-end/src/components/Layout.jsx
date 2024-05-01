@@ -68,9 +68,13 @@ const Layout = () => {
         </Tooltip>
         <Create />
         <Tooltip hasArrow label="Message" bg="black" color="white" rounded={5}>
-          <MessagesSquare color="white" cursor={"pointer"} />
+          <MessagesSquare
+            color="white"
+            cursor={"pointer"}
+            onClick={() => navigate(`/home/${user?.username}/chats`)}
+          />
         </Tooltip>
-        <Tooltip
+        {/* <Tooltip
           hasArrow
           label="Notification"
           bg="black"
@@ -78,7 +82,7 @@ const Layout = () => {
           rounded={5}
         >
           <BellRing color="white" cursor={"pointer"} />
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip hasArrow label="Profile" bg="black" color="white" rounded={5}>
           <CircleUserRound
             color="white"

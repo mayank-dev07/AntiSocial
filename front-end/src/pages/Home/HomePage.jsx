@@ -32,7 +32,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Container maxW={"900px"} className="bg-black" minH={"100vh"}>
+      <Container maxW={"900px"} minH={"100vh"}>
         <Flex
           justifyContent={"center"}
           paddingY={{ base: 3, md: 5 }}
