@@ -75,7 +75,12 @@ const PostPage = () => {
   };
 
   const postCommentChange = (e) => {
-    setComment({ ...comment, [e.target.name]: e.target.value, id: post?._id });
+    setComment({
+      ...comment,
+      [e.target.name]: e.target.value,
+      id: post?._id,
+      profilepic: user?.profilepic,
+    });
   };
 
   const addCommentText = async (e) => {

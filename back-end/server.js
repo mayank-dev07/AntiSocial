@@ -4,6 +4,7 @@ import connetDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import postRouter from "./routes/postRoutes.js";
+import messageRouter from "./routes/messageRoutes.js";
 import cors from "cors";
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use("/uploads/postimg", express.static("uploads/postimg"));
 // Routes
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
+app.use("/api/message", messageRouter);
 
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);

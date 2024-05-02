@@ -1,24 +1,40 @@
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import useStore from "../../zustand/zustan";
+import { url } from "../../axios/imageurl";
 
-const Message = ({ ownMessage }) => {
+const Message = (props) => {
+  const { user } = useStore();
+
+  // useEffect(() => {
+  //   // console.log(props.props.sender._id);
+  //   // console.log(user._id);
+  // }, [props]);
   return (
     <>
-      {ownMessage ? (
+      {props.props.sender._id == user._id ? (
         <>
           <Flex gap={2} justifyContent={"end"}>
             <Text maxW={"60%"} bg={"blue.900"} borderRadius={8} p={3}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
+              {props?.props?.text}
             </Text>
-            <Avatar src="" w={8} h={8}></Avatar>
+            <Avatar
+              src={`${url + props?.props?.sender?.profilepic}`}
+              w={8}
+              h={8}
+            ></Avatar>
           </Flex>
         </>
       ) : (
         <>
           <Flex gap={2}>
-            <Avatar src="" w={8} h={8}></Avatar>
+            <Avatar
+              src={`${url + props?.props?.sender?.profilepic}`}
+              w={8}
+              h={8}
+            ></Avatar>
             <Text maxW={"60%"} bg={"blue.600"} borderRadius={8} p={3}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis e.
+              {props?.props?.text}
             </Text>
           </Flex>
         </>

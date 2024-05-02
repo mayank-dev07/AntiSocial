@@ -33,6 +33,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signUp, setSignUp] = useState(initialState);
 
   const errorNotify = (error) => {
@@ -163,7 +164,7 @@ export default function Signup() {
                 <FormLabel>Confirm Password</FormLabel>
                 <InputGroup>
                   <Input
-                    type={showPassword ? "text" : "password"}
+                    type={showConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
                     onChange={handelChange}
                     value={signUp.confirmPassword}
@@ -171,10 +172,16 @@ export default function Signup() {
                   <InputRightElement h={"full"}>
                     <Box
                       onClick={() =>
-                        setShowPassword((showPassword) => !showPassword)
+                        setShowConfirmPassword(
+                          (showConfirmPassword) => !showConfirmPassword
+                        )
                       }
                     >
-                      {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                      {showConfirmPassword ? (
+                        <Eye size={20} />
+                      ) : (
+                        <EyeOff size={20} />
+                      )}
                     </Box>
                   </InputRightElement>
                 </InputGroup>

@@ -53,6 +53,7 @@ const AllPost = (props) => {
       ...comment,
       [e.target.name]: e.target.value,
       id: id,
+      profilepic: user?.profilepic,
     });
   };
 

@@ -56,13 +56,21 @@ const getUserPost = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.find({ _id: id })
-      .populate({
-        path: "likes",
-        populate: {
-          path: "_id",
-        },
-      })
-      .populate("postedBy", "username profilepic");
+      // .populate({
+      //   path: "likes",
+      //   populate: {
+      //     path: "_id",
+      //   },
+      // })
+      // .populate({
+      //   path: "replies",
+      //   populate: {
+      //     path: "userId",
+      //   },
+      // })
+      .populate("postedBy", "username profilepic")
+      .populate("likes", "username name profilepic")
+      .populate("replies", "profilepic");
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: error });

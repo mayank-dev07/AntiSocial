@@ -1,6 +1,7 @@
 import React from "react";
 import { Flex, Text, Avatar } from "@chakra-ui/react";
 import { formatDistanceToNow } from "date-fns";
+import { url } from "../../axios/imageurl";
 
 const Comment = (props) => {
   console.log(props);
@@ -11,7 +12,7 @@ const Comment = (props) => {
         <Flex direction={"column"} alignItems={"center"}>
           <Avatar
             name={props?.props?.username}
-            src="https://bit.ly/dan-abramov"
+            src={`${url + props?.props?.profilepic}`}
             size={{ base: "md", md: "lg" }}
           />
         </Flex>

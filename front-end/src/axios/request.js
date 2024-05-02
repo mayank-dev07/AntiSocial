@@ -137,3 +137,30 @@ export const deletefeed = async (value) => {
     return { res: null, err: err };
   }
 };
+
+export const getConversations = async () => {
+  try {
+    const res = await axiosInstance.get("message/conversation");
+    return { res: res, err: null };
+  } catch (err) {
+    return { res: null, err: err };
+  }
+};
+
+export const getMessages = async (value) => {
+  try {
+    const res = await axiosInstance.get(`message/${value}`);
+    return { res: res, err: null };
+  } catch (err) {
+    return { res: null, err: err };
+  }
+};
+
+export const sendMessages = async (value) => {
+  try {
+    const res = await axiosInstance.post("message/", value);
+    return { res: res, err: null };
+  } catch (err) {
+    return { res: null, err: err };
+  }
+};

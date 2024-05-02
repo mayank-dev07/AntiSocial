@@ -50,6 +50,21 @@ const HomePage = () => {
         </Flex>
         <Divider></Divider>
         <Flex direction={"column"} paddingBottom={12}>
+          {feeds?.length == 0 && (
+            <>
+              <Flex
+                w={"full"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                h={"75vh"}
+              >
+                <Text fontSize={"2xl"} fontWeight={"bold"}>
+                  {" "}
+                  Follow Users to see their posts
+                </Text>
+              </Flex>
+            </>
+          )}
           {feeds?.map((item, index) => (
             <Box key={index}>
               <AllPost data={item} fun={feed} />
