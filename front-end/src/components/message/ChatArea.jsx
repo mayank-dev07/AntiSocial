@@ -29,8 +29,13 @@ const ChatArea = (props) => {
   const getMessage = async (id) => {
     if (id) {
       const { res, err } = await getMessages(id);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setMessage(res.data);
+      } else {
+        setMessage([]);
+      }
+      if (err) {
+        setMessage([]);
       }
     }
   };
@@ -39,7 +44,7 @@ const ChatArea = (props) => {
     if (props?.props?.participants !== undefined) {
       getMessage(props.props.participants[0]._id);
     } else {
-      console.log(props?.props);
+      getMessage(props?.props?._id);
     }
   }, [props]);
 
@@ -47,11 +52,11 @@ const ChatArea = (props) => {
     scrollToBottom();
   }, [message]);
 
-  const handelChange = (e) => {
+  const handelChange = (e, id) => {
     setData({
       ...data,
       [e.target.name]: e.target.value,
-      id: props.props.participants[0]._id,
+      id: id,
     });
   };
 
@@ -60,7 +65,11 @@ const ChatArea = (props) => {
     const { res } = await sendMessages(data);
     if (res.status === 201) {
       setData({ id: "", message: "" });
-      getMessage(props.props.participants[0]._id);
+      if (props?.props?.participants !== undefined) {
+        getMessage(props.props.participants[0]._id);
+      } else {
+        getMessage(props?.props?._id);
+      }
       props.fun();
     }
   };
@@ -113,7 +122,7 @@ const ChatArea = (props) => {
                     : props?.props?.name}
                 </Text>
                 <Text fontSize={{ base: 14, md: 16 }}>
-                  @{" "}
+                  @
                   {props?.props?.participants
                     ? props?.props?.participants[0]?.username
                     : props?.props?.username}
@@ -138,14 +147,27 @@ const ChatArea = (props) => {
           </Flex>
           <form action="" onSubmit={sendMessage}>
             <InputGroup borderRadius={5} size="lg" paddingBottom={4} px={5}>
-              <Input
-                variant="outlined"
-                type="text"
-                placeholder="Message..."
-                name="message"
-                value={data.message}
-                onChange={handelChange}
-              />
+              {props?.props?.participants ? (
+                <Input
+                  variant="outlined"
+                  type="text"
+                  placeholder="Message..."
+                  name="message"
+                  value={data.message}
+                  onChange={(e) =>
+                    handelChange(e, props?.props?.participants[0]._id)
+                  }
+                />
+              ) : (
+                <Input
+                  variant="outlined"
+                  type="text"
+                  placeholder="Message..."
+                  name="message"
+                  value={data.message}
+                  onChange={(e) => handelChange(e, props?.props?._id)}
+                />
+              )}
               <InputRightAddon border="none" bg={"black"}>
                 <Button
                   borderLeftRadius={0}

@@ -1,20 +1,25 @@
 import {
-  Avatar,
   Box,
   Button,
   Container,
-  Divider,
   Flex,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightAddon,
-  InputRightElement,
   Stack,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { MessageSquareQuote, Search, Send, SendHorizonal } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FollowedUser from "../../components/User/FollowedUser";
 import { getAllUser, getConversations, getMessages } from "../../axios/request";
 import useStore from "../../zustand/zustan";
@@ -28,6 +33,21 @@ const Chat = () => {
   const [search, setSearch] = useState("");
   const [originalUsers, setOriginalUsers] = useState([]);
   const { user } = useStore();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+      console.log(width);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [width]);
 
   const handelChange = (e) => {
     setSearch(e.target.value);
@@ -36,20 +56,16 @@ const Chat = () => {
   const getAll = async () => {
     const { res, err } = await getAllUser();
     if (res?.status == 200) {
-      // console.log(res);
-      // setUsers(res.data);
       setOriginalUsers(res.data);
     }
   };
 
   const conversations = async () => {
     const { res, err } = await getConversations();
-    // console.log(res);
+    console.log(res);
     if (res.status == 200) {
       setAllConversations(res.data);
-      // setAllConversations(res.data);
     }
-    // console.log(err);
   };
 
   useEffect(() => {
@@ -58,12 +74,10 @@ const Chat = () => {
   }, []);
 
   const setConvo = (item) => {
-    // console.log(item.participants[0]._id);
     setConversations(item);
   };
 
   const searchUser = () => {
-    // console.log(search);
     const filteredUsers = originalUsers.filter((item) =>
       item.name.startsWith(search)
     );
@@ -73,9 +87,15 @@ const Chat = () => {
     }
 
     setSearch("");
-    // console.log(user);
     if (!search) {
       setUsers(null);
+    }
+  };
+
+  const showMessage = (item) => {
+    setConvo(item);
+    if (width <= 991) {
+      onOpen();
     }
   };
 
@@ -143,7 +163,7 @@ const Chat = () => {
                   </Text>
                 )}
                 {allConvo.map((item, index) => (
-                  <Box key={index} onClick={() => setConvo(item)} w={"full"}>
+                  <Box key={index} onClick={() => showMessage(item)} w={"full"}>
                     <ConversationUser props={item} />
                   </Box>
                 ))}
@@ -172,11 +192,10 @@ const Chat = () => {
                     return (
                       <Box
                         key={index}
-                        onClick={() => setConvo(item)}
+                        onClick={() => showMessage(item)}
                         w={"full"}
                       >
                         <FollowedUser key={index} props={item} />
-                        {/* <ConversationUser props={item} /> */}
                       </Box>
                     );
                   }
@@ -189,6 +208,26 @@ const Chat = () => {
           </Flex>
         </Container>
       </Flex>
+
+      <Modal
+        onClose={onClose}
+        // finalFocusRef={btnRef}
+        isOpen={isOpen}
+        scrollBehavior={"inside"}
+        size={"xxl"}
+      >
+        <ModalOverlay />
+        <ModalContent bg={"gray.900"}>
+          <ModalHeader>Message</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ChatArea props={convo} fun={conversations} />
+          </ModalBody>
+          {/* <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter> */}
+        </ModalContent>
+      </Modal>
     </>
   );
 };

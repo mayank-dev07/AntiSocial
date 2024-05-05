@@ -6,10 +6,7 @@ import useStore from "../../zustand/zustan";
 
 const ConversationUser = (props) => {
   const { user } = useStore();
-
-  useEffect(() => {
-    console.log(props);
-  }, [props]);
+  console.log(props);
 
   return (
     <>
@@ -23,16 +20,12 @@ const ConversationUser = (props) => {
         >
           {props?.props?.participants.map(
             (item, index) => (
-              // item._id !== user._id && (
               <Box display={"flex"} alignItems={"center"} gap={5} key={index}>
                 <Avatar
                   cursor={"pointer"}
                   size={{ base: "sm", md: "sm", xl: "md" }}
-                  name={props?.props?.name}
+                  name={props?.props?.participants[0].name}
                   src={`${url + item.profilepic}`}
-                  // onClick={() => {
-                  //   navigate(`/home/profile/${item?.username}`);
-                  // }}
                 />
                 <Box>
                   <Text
