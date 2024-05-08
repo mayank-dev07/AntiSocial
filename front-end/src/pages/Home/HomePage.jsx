@@ -40,11 +40,7 @@ const HomePage = () => {
           bg={"black"}
         >
           {/* <Box> */}
-          <Image
-            src="/src/assets/Logo.png"
-            alt=""
-            w={{ sm: "10%", md: "25%" }}
-          />
+          <Image src="/Logo.png" alt="" w={{ sm: "10%", md: "25%" }} />
           {/* </Box> */}
           {/* <Text fontSize={32}>Anti-Social</Text> */}
         </Flex>

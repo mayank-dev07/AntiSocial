@@ -6,13 +6,16 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./constants/theme.js";
 import { BrowserRouter } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
+        <SocketContextProvider>
+          <App />
+        </SocketContextProvider>
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>

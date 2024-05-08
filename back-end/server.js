@@ -6,11 +6,11 @@ import userRouter from "./routes/userRoutes.js";
 import postRouter from "./routes/postRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import cors from "cors";
+import { app, server } from "./socket/socket.js";
 
 dotenv.config();
 connetDB();
 
-const app = express();
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -31,6 +31,6 @@ app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/message", messageRouter);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
 });

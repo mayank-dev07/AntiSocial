@@ -1,5 +1,5 @@
-import { Avatar, Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Avatar, Box, Divider, Flex, Text } from "@chakra-ui/react";
+import React from "react";
 import { url } from "../../axios/imageurl";
 import { CheckCheck, MessageCircleMore } from "lucide-react";
 import useStore from "../../zustand/zustan";
