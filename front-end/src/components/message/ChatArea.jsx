@@ -25,7 +25,7 @@ const ChatArea = (props) => {
   useEffect(() => {
     socket?.on("newMessage", (message) => {
       setMessage((prev) => [...prev, message]);
-      // console.log(message);
+      props.fun();
     });
 
     return () => socket?.off("newMessage");
