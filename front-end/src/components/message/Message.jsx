@@ -6,10 +6,11 @@ import { url } from "../../axios/imageurl";
 const Message = (props) => {
   const { user } = useStore();
 
-  // useEffect(() => {
-  //   // console.log(props.props.sender._id);
-  //   // console.log(user._id);
-  // }, [props]);
+  useEffect(() => {
+    console.log(props);
+    // console.log(props.props.sender._id);
+    // console.log(user._id);
+  }, [props]);
   return (
     <>
       {props.props.sender._id == user._id ? (

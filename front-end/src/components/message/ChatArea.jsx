@@ -14,11 +14,22 @@ import Message from "./Message.jsx";
 import { MessageSquareQuote, Send } from "lucide-react";
 import { url } from "../../axios/imageurl";
 import { getMessages, sendMessages } from "../../axios/request";
+import { useSocket } from "../../context/SocketContext.jsx";
 
 const ChatArea = (props) => {
   const [message, setMessage] = useState([]);
   const [data, setData] = useState({ id: "", message: "" });
   const Ref = useRef(null);
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    socket?.on("newMessage", (message) => {
+      setMessage((prev) => [...prev, message]);
+      // console.log(message);
+    });
+
+    return () => socket?.off("newMessage");
+  }, [socket, message]);
 
   const scrollToBottom = () => {
     if (Ref.current) {
@@ -62,8 +73,8 @@ const ChatArea = (props) => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    const { res } = await sendMessages(data);
-    if (res.status === 201) {
+    const { res, err } = await sendMessages(data);
+    if (res?.status === 201) {
       setData({ id: "", message: "" });
       if (props?.props?.participants !== undefined) {
         getMessage(props.props.participants[0]._id);
@@ -72,6 +83,7 @@ const ChatArea = (props) => {
       }
       props.fun();
     }
+    console.log(err);
   };
 
   return (

@@ -1,6 +1,6 @@
 import Conversation from "../models/conversationModel.js";
 import Message from "../models/messageModel.js";
-
+import { getRecipientSocketId, io } from "../socket/socket.js";
 const sendMessage = async (req, res) => {
   try {
     const { id, message } = req.body;
@@ -28,19 +28,26 @@ const sendMessage = async (req, res) => {
       text: message,
     });
 
-    await Promise.all([
-      newMessage.save(),
-      conversation.updateOne({
-        lastMessage: {
-          text: message,
-          sender: senderId,
-        },
-      }),
-    ]);
+    await newMessage.save();
+
+    await newMessage.populate({ path: "sender", select: "profilepic" });
+
+    await conversation.updateOne({
+      lastMessage: {
+        text: message,
+        sender: senderId,
+      },
+    });
+
+    const recipientSocketId = getRecipientSocketId(id);
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit("newMessage", newMessage);
+    }
 
     res.status(201).json(newMessage);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

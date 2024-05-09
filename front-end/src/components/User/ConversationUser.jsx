@@ -1,4 +1,11 @@
-import { Avatar, Box, Divider, Flex, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarBadge,
+  Box,
+  Divider,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
 import React from "react";
 import { url } from "../../axios/imageurl";
 import { CheckCheck, MessageCircleMore } from "lucide-react";
@@ -26,7 +33,11 @@ const ConversationUser = (props) => {
                   size={{ base: "sm", md: "sm", xl: "md" }}
                   name={props?.props?.participants[0].name}
                   src={`${url + item.profilepic}`}
-                />
+                >
+                  {props?.isOnline && (
+                    <AvatarBadge boxSize={"1em"} bg={"green"} />
+                  )}
+                </Avatar>
                 <Box>
                   <Text
                     key={index}

@@ -25,6 +25,7 @@ import { getAllUser, getConversations, getMessages } from "../../axios/request";
 import useStore from "../../zustand/zustan";
 import ConversationUser from "../../components/User/ConversationUser";
 import ChatArea from "../../components/message/ChatArea";
+import { useSocket } from "../../context/SocketContext";
 
 const Chat = () => {
   const [users, setUsers] = useState(null);
@@ -35,6 +36,7 @@ const Chat = () => {
   const { user } = useStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [width, setWidth] = useState(window.innerWidth);
+  const { onlineUsers } = useSocket();
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,7 +81,7 @@ const Chat = () => {
 
   const searchUser = () => {
     const filteredUsers = originalUsers.filter((item) =>
-      item.name.startsWith(search)
+      item.username.startsWith(search)
     );
 
     if (filteredUsers) {
@@ -164,7 +166,10 @@ const Chat = () => {
                 )}
                 {allConvo.map((item, index) => (
                   <Box key={index} onClick={() => showMessage(item)} w={"full"}>
-                    <ConversationUser props={item} />
+                    <ConversationUser
+                      props={item}
+                      isOnline={onlineUsers.includes(item.participants[0]._id)}
+                    />
                   </Box>
                 ))}
               </Stack>
@@ -188,6 +193,7 @@ const Chat = () => {
                   </Text>
                 )}
                 {users?.map((item, index) => {
+                  console.log(item);
                   if (item.followers.includes(user._id)) {
                     return (
                       <Box
@@ -195,7 +201,11 @@ const Chat = () => {
                         onClick={() => showMessage(item)}
                         w={"full"}
                       >
-                        <FollowedUser key={index} props={item} />
+                        <FollowedUser
+                          key={index}
+                          props={item}
+                          isOnline={onlineUsers.includes(item._id)}
+                        />
                       </Box>
                     );
                   }

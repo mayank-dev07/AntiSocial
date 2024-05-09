@@ -10,7 +10,8 @@ export const useSocket = () => {
 
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const user = useStore();
+  const [onlineUsers, setonlineUsers] = useState([]);
+  const { user } = useStore();
 
   useEffect(() => {
     const newSocket = io("http://localhost:8000", {
@@ -28,6 +29,11 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (socket) {
+      socket.on("getOnlineUsers", (users) => {
+        setonlineUsers(users);
+        console.log(onlineUsers);
+      });
+      console.log(user);
       socket.on("connect", () => {
         console.log("Connected to Socket.IO server");
       });
@@ -39,7 +45,7 @@ export const SocketContextProvider = ({ children }) => {
   }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ socket }}>
+    <SocketContext.Provider value={{ socket, onlineUsers }}>
       {children}
     </SocketContext.Provider>
   );
