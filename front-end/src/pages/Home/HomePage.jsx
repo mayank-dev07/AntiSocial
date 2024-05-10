@@ -36,13 +36,13 @@ const HomePage = () => {
         <Flex
           justifyContent={"center"}
           paddingY={{ base: 3, md: 5 }}
-          // position={"fixed"}
           bg={"black"}
         >
-          {/* <Box> */}
-          <Image src="/Logo.png" alt="" w={{ sm: "10%", md: "25%" }} />
-          {/* </Box> */}
-          {/* <Text fontSize={32}>Anti-Social</Text> */}
+          <Image
+            src="/Logo.png"
+            alt=""
+            w={{ base: "50%", sm: "30%", md: "25%" }}
+          />
         </Flex>
         <Divider></Divider>
         <Flex direction={"column"} paddingBottom={12}>

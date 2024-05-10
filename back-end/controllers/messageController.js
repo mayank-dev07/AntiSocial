@@ -46,7 +46,6 @@ const sendMessage = async (req, res) => {
 
     res.status(201).json(newMessage);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -59,8 +58,6 @@ const getMessage = async (req, res) => {
     const conversation = await Conversation.findOne({
       participants: { $all: [userId, id] },
     });
-    console.log(id);
-    console.log(conversation);
 
     if (!conversation) {
       return res.status(404).json({ messages: "Conversation not found" });

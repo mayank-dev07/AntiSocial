@@ -31,12 +31,8 @@ export const SocketContextProvider = ({ children }) => {
     if (socket) {
       socket.on("getOnlineUsers", (users) => {
         setonlineUsers(users);
-        console.log(onlineUsers);
       });
-      console.log(user);
-      socket.on("connect", () => {
-        console.log("Connected to Socket.IO server");
-      });
+      socket.on("connect", () => {});
 
       socket.on("error", (error) => {
         console.error("Socket.IO error:", error);

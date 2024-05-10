@@ -15,21 +15,51 @@ import { MessageSquareQuote, Send } from "lucide-react";
 import { url } from "../../axios/imageurl";
 import { getMessages, sendMessages } from "../../axios/request";
 import { useSocket } from "../../context/SocketContext.jsx";
+import useStore from "../../zustand/zustan.js";
 
 const ChatArea = (props) => {
   const [message, setMessage] = useState([]);
   const [data, setData] = useState({ id: "", message: "" });
   const Ref = useRef(null);
   const { socket } = useSocket();
+  const { user } = useStore();
 
   useEffect(() => {
     socket?.on("newMessage", (message) => {
-      setMessage((prev) => [...prev, message]);
+      if (props?.props?.conversationId === message.conversationId) {
+        setMessage((prev) => [...prev, message]);
+      }
       props.fun();
     });
 
     return () => socket?.off("newMessage");
   }, [socket, message]);
+  // useEffect(() => {
+  //   const lastMessage =
+  //     message.length && message[message.length - 1].sender._id === user._id;
+
+  //   if (lastMessage) {
+  //     socket?.emit("markMessageSeen", {
+  //       conversationId: message[message.length - 1].conversationId,
+  //       sender: user._id,
+  //     });
+  //   }
+
+  //   socket?.on("messageSeen", ({ conversationId }) => {
+  //     console.log("hbviubio");
+  //     if (conversationId === props?.props?.conversationId) {
+  //       setMessage((prev) =>
+  //         prev.map((msg) =>
+  //           msg.conversationId === conversationId ? { ...msg, seen: true } : msg
+  //         )
+  //       );
+  //     }
+  //   });
+
+  //   return () => {
+  //     socket?.off("messageSeen");
+  //   };
+  // }, [socket, message]);
 
   const scrollToBottom = () => {
     if (Ref.current) {
@@ -83,7 +113,6 @@ const ChatArea = (props) => {
       }
       props.fun();
     }
-    console.log(err);
   };
 
   return (

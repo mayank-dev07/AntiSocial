@@ -40,11 +40,13 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
 
 const PostPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
   const { user } = useStore();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const trashModal = useDisclosure();
+  const [deletePostId, setDeletePostId] = useState("");
   const [postId, setPostId] = useState();
   const [comment, setComment] = useState({ text: "", id: "" });
   const [post, setPost] = useState();
@@ -123,12 +125,19 @@ const PostPage = () => {
       theme: "dark",
     });
   };
+  const handleTrash = (id) => {
+    console.log(id);
+    setDeletePostId(id);
+    trashModal.onOpen();
+  };
 
   const deletePost = async (id) => {
     const { res, err } = await deletefeed(id);
     if (res.status == 200) {
       navigate(`/home/profile/${post?.postedBy?.username}`);
       successNotify(res.data.message);
+      setDeletePostId("");
+      trashModal.onClose();
     }
     console.log(err);
   };
@@ -224,7 +233,8 @@ const PostPage = () => {
                   ) : (
                     <Trash2
                       cursor={"pointer"}
-                      onClick={() => deletePost(post?._id)}
+                      // onClick={() => deletePost(post?._id)}
+                      onClick={() => handleTrash(post?._id)}
                     />
                   )}
                   <Send cursor={"pointer"} />
@@ -311,6 +321,32 @@ const PostPage = () => {
           </Flex>
         </Flex>
       </Container>
+
+      <Modal isOpen={trashModal.isOpen} onClose={trashModal.onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete the post?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              direction={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={4}
+            >
+              <Text fontSize={20}>This action cannot be undone.</Text>
+              <Button
+                type="button"
+                onClick={() => deletePost(deletePostId)}
+                bg={"red.500"}
+                _hover={{ bg: "red.600" }}
+              >
+                Delete Post
+              </Button>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />

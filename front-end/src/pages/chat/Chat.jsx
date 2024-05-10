@@ -41,7 +41,6 @@ const Chat = () => {
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
-      console.log(width);
     };
 
     window.addEventListener("resize", handleResize);
@@ -64,7 +63,6 @@ const Chat = () => {
 
   const conversations = async () => {
     const { res, err } = await getConversations();
-    console.log(res);
     if (res.status == 200) {
       setAllConversations(res.data);
     }

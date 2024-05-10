@@ -17,8 +17,16 @@ import {
   Container,
   Button,
   useDisclosure,
+  Tr,
 } from "@chakra-ui/react";
-import { Ellipsis, MessageCircle, Send, Repeat, Trash2 } from "lucide-react";
+import {
+  Ellipsis,
+  MessageCircle,
+  Send,
+  Repeat,
+  Trash2,
+  Trash,
+} from "lucide-react";
 import { url } from "../../axios/imageurl";
 import { addComment, addPost, deletefeed, likePost } from "../../axios/request";
 import useStore from "../../zustand/zustan";
@@ -33,6 +41,8 @@ const AllPost = (props) => {
     navigate(`/home/${user?.name}/post/${value}`);
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const trashModal = useDisclosure();
+  const [deletePostId, setDeletePostId] = useState("");
   const [comment, setComment] = useState({ text: "", id: "" });
 
   const successNotify = (message) => {
@@ -92,11 +102,19 @@ const AllPost = (props) => {
     }
   };
 
+  const handleTrash = (id) => {
+    console.log(id);
+    setDeletePostId(id);
+    trashModal.onOpen();
+  };
+
   const deletePost = async (id) => {
     const { res, err } = await deletefeed(id);
     console.log(res);
     if (res.status == 200) {
       successNotify(res.data.message);
+      setDeletePostId("");
+      trashModal.onClose();
     }
     console.log(err);
     props.fun();
@@ -195,7 +213,8 @@ const AllPost = (props) => {
             ) : (
               <Trash2
                 cursor={"pointer"}
-                onClick={() => deletePost(props?.data?._id)}
+                // onClick={() => deletePost(post?._id)}
+                onClick={() => handleTrash(props?.data?._id)}
               />
             )}
             <Send cursor={"pointer"} />
@@ -215,6 +234,32 @@ const AllPost = (props) => {
         </Flex>
       </Flex>
       <Divider orientation="horizontal" w={"full"} />
+
+      <Modal isOpen={trashModal.isOpen} onClose={trashModal.onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete the post?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              direction={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={4}
+            >
+              <Text fontSize={20}>This action cannot be undone.</Text>
+              <Button
+                type="button"
+                onClick={() => deletePost(deletePostId)}
+                bg={"red.500"}
+                _hover={{ bg: "red.600" }}
+              >
+                Delete Post
+              </Button>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
