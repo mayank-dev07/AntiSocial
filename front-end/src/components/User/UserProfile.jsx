@@ -56,14 +56,14 @@ const UserProfile = (props) => {
       theme: "dark",
     });
   };
-  useEffect(() => {
-    console.log(props);
-    console.log(user);
-  }, [props, user]);
+  // useEffect(() => {
+  //   console.log(props);
+  //   console.log(user);
+  // }, [props, user]);
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    console.log(update);
+    // console.log(update);
 
     try {
       const formData = new FormData();

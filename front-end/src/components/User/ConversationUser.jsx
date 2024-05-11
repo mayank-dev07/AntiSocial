@@ -13,7 +13,7 @@ import useStore from "../../zustand/zustan";
 
 const ConversationUser = (props) => {
   const { user } = useStore();
-  // console.log(props);
+  console.log(props);
 
   return (
     <>
@@ -34,9 +34,9 @@ const ConversationUser = (props) => {
                   name={props?.props?.participants[0].name}
                   src={`${url + item.profilepic}`}
                 >
-                  {props?.isOnline && (
+                  {/* {props?.isOnline && (
                     <AvatarBadge boxSize={"1em"} bg={"green"} />
-                  )}
+                  )} */}
                 </Avatar>
                 <Box>
                   <Text

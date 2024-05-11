@@ -5,6 +5,16 @@ const sendMessage = async (req, res) => {
   try {
     const { id, message } = req.body;
     const senderId = req.user._id;
+    console.log(req.file);
+    console.log(req.body);
+    let Img = "";
+    if (req.file) {
+      Img = req.file.path;
+    } else {
+      if (req.body.Img) {
+        Img = req.body.Img;
+      }
+    }
 
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, id] },
@@ -16,6 +26,7 @@ const sendMessage = async (req, res) => {
         lastMessage: {
           text: message,
           sender: senderId,
+          Img: Img,
         },
       });
 
@@ -26,6 +37,7 @@ const sendMessage = async (req, res) => {
       conversationId: conversation._id,
       sender: senderId,
       text: message,
+      Img: Img,
     });
 
     await newMessage.save();

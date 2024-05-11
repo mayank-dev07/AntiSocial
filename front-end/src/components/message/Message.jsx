@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Image, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import useStore from "../../zustand/zustan";
 import { url } from "../../axios/imageurl";
@@ -7,12 +7,25 @@ import { Check, CheckCheck } from "lucide-react";
 const Message = (props) => {
   const { user } = useStore();
 
+  useEffect(() => {
+    console.log(props.props);
+  }, [props]);
   return (
     <>
       {props.props.sender._id == user._id ? (
         <>
           <Flex gap={2} justifyContent={"end"}>
-            <Flex maxW={"60%"} bg={"blue.900"} borderRadius={8} p={3} gap={2}>
+            <Flex
+              maxW={"60%"}
+              bg={"blue.900"}
+              borderRadius={8}
+              p={3}
+              gap={2}
+              direction={"column"}
+            >
+              {props?.props?.Img && (
+                <Image src={`${url + props?.props?.Img}`} w={"auto"} h={100} />
+              )}
               <Text>{props?.props?.text}</Text>
               {/* <Flex justifyContent={"center"} alignItems={"center"}>
                 {props?.props?.seen ? (
@@ -37,9 +50,19 @@ const Message = (props) => {
               w={8}
               h={8}
             ></Avatar>
-            <Text maxW={"60%"} bg={"blue.600"} borderRadius={8} p={3}>
-              {props?.props?.text}
-            </Text>
+            <Flex
+              maxW={"60%"}
+              bg={"blue.900"}
+              borderRadius={8}
+              p={3}
+              gap={2}
+              direction={"column"}
+            >
+              {props?.props?.Img && (
+                <Image src={`${url + props?.props?.Img}`} w={"auto"} h={100} />
+              )}
+              <Text>{props?.props?.text}</Text>
+            </Flex>
           </Flex>
         </>
       )}

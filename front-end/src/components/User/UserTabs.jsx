@@ -17,7 +17,7 @@ const UserHome = (props) => {
 
   const getThePost = async () => {
     const { res, err } = await getPost(props?.props?._id);
-    console.log(res);
+    // console.log(res);
     if (res?.status == 200) {
       setPosts(res?.data);
     }
@@ -37,7 +37,7 @@ const UserHome = (props) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            {posts?.length >= 0 ? (
+            {posts?.length > 0 ? (
               <>
                 {posts?.map((item, index) => (
                   <Box key={index}>
@@ -47,7 +47,9 @@ const UserHome = (props) => {
               </>
             ) : (
               <Flex justifyContent={"center"} alignItems={"center"} w={"full"}>
-                <Text>No Posts To Show</Text>
+                <Text fontSize={20} py={12}>
+                  No Posts To Show
+                </Text>
               </Flex>
             )}
           </TabPanel>

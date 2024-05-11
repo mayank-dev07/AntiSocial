@@ -5,9 +5,9 @@ import { url } from "../../axios/imageurl";
 import { MessageCircleMore } from "lucide-react";
 
 const FollowedUser = (props) => {
-  useEffect(() => {
-    console.log(props);
-  }, [props]);
+  // useEffect(() => {
+  //   console.log(props);
+  // }, [props]);
 
   return (
     <>

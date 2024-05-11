@@ -54,9 +54,12 @@ const HomePage = () => {
                 alignItems={"center"}
                 h={"75vh"}
               >
-                <Text fontSize={"2xl"} fontWeight={"bold"}>
-                  {" "}
+                <Text fontSize={"2xl"} fontWeight={"bold"} textAlign={"center"}>
                   Follow Users to see their posts
+                  <br />
+                  Or
+                  <br />
+                  your feed is empty
                 </Text>
               </Flex>
             </>

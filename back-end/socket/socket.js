@@ -1,4 +1,5 @@
-import { Server, Socket } from "socket.io";
+// socket.js
+import { Server } from "socket.io";
 import http from "http";
 import express from "express";
 import Message from "../models/messageModel.js";
@@ -21,28 +22,31 @@ io.on("connection", (socket) => {
   console.log("user connected", socket.id);
 
   const userId = socket.handshake.query.userId;
-  if (userId != "undefined") userSocketMap[userId] = socket.id;
-  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-  // socket.on("markMessageSeen", async ({ conversationId, userId }) => {
+  if (userId !== "undefined") {
+    userSocketMap[userId] = socket.id;
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  }
+
+  // socket.on("messageSeen", async ({ conversationId, userId }) => {
+  //   console.log("message seen", conversationId);
   //   try {
-  //     const update = await Message.updateMany(
-  //       { conversationId, seen: false },
+  //     await Message.updateMany(
+  //       { conversationId: conversationId, seen: false },
   //       { $set: { seen: true } }
   //     );
-  //     if (update) {
-  //       return io.emit("messageSeen", { conversationId });
-  //     }
+  //     console.log({ Message });
+  //     io.to(userSocketMap[userId]).emit("messagesSeen", conversationId);
   //   } catch (err) {
   //     console.log(err);
   //   }
   // });
 
-  // socket.on("disconnect", () => {
-  //   console.log("user disconnected");
-  //   delete userSocketMap[userId];
-  //   io.emit("getOnlineUsers", Object.keys(userSocketMap));
-  // });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  });
 });
 
 io.on("error", (err) => {

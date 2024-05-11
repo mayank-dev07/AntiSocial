@@ -25,6 +25,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use("/uploads/profileimg", express.static("uploads/profileimg"));
 app.use("/uploads/postimg", express.static("uploads/postimg"));
+app.use("/uploads/messageimg", express.static("uploads/messageimg"));
 
 // Routes
 app.use("/api/user", userRouter);

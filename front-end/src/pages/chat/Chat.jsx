@@ -191,7 +191,7 @@ const Chat = () => {
                   </Text>
                 )}
                 {users?.map((item, index) => {
-                  console.log(item);
+                  // console.log(item);
                   if (item.followers.includes(user._id)) {
                     return (
                       <Box
