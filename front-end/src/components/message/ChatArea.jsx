@@ -332,7 +332,7 @@ const ChatArea = (props) => {
                         justifyContent={"center"}
                         alignItems={"center"}
                       >
-                        <Text>{"Add Image"}</Text>
+                        <Text>{image ? "Replace Image" : "Add Image"}</Text>
                         <ImagePlus />
                       </Flex>
                       <Input
