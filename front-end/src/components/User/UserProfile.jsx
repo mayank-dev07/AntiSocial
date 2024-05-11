@@ -49,6 +49,7 @@ const UserProfile = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const fileRef = useRef(false);
   const [image, setImage] = useState(null);
+  const { user } = useStore();
 
   const successNotify = (message) => {
     toast.success(message, {
@@ -57,7 +58,8 @@ const UserProfile = (props) => {
   };
   useEffect(() => {
     console.log(props);
-  }, []);
+    console.log(user);
+  }, [props, user]);
 
   const updateProfile = async (e) => {
     e.preventDefault();
@@ -74,11 +76,14 @@ const UserProfile = (props) => {
 
       const { res, err } = await updateUserProfile(formData);
       if (res.status === 200) {
+        if (update.username) {
+          navigate(`/home/profile/${update.username}`);
+        }
         console.log(res);
         successNotify(res.data.message);
         onClose();
         setTimeout(() => {
-          isLog();
+          props.fun();
         }, 2000);
       } else {
         console.log(err);
@@ -144,31 +149,33 @@ const UserProfile = (props) => {
               {props?.props?.following?.length} following
             </Text>
           </Flex>
-          <Flex>
-            <Menu>
-              <MenuButton>
-                <AlignJustify />
-              </MenuButton>
-              <Portal>
-                <MenuList bg={"black"} w={"min-content"}>
-                  <MenuItem bg={"black"} onClick={onOpen}>
-                    Update Profile
-                  </MenuItem>
-                  <MenuItem bg={"black"}>
-                    <Flex
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                      w={"full"}
-                      onClick={logout}
-                    >
-                      <Text>Logout</Text>
-                      <LogOut size={18} />
-                    </Flex>
-                  </MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
-          </Flex>
+          {props?.props?._id == user._id && (
+            <Flex>
+              <Menu>
+                <MenuButton>
+                  <AlignJustify />
+                </MenuButton>
+                <Portal>
+                  <MenuList bg={"black"} w={"min-content"}>
+                    <MenuItem bg={"black"} onClick={onOpen}>
+                      Update Profile
+                    </MenuItem>
+                    <MenuItem bg={"black"}>
+                      <Flex
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                        w={"full"}
+                        onClick={logout}
+                      >
+                        <Text>Logout</Text>
+                        <LogOut size={18} />
+                      </Flex>
+                    </MenuItem>
+                  </MenuList>
+                </Portal>
+              </Menu>
+            </Flex>
+          )}
         </Flex>
       </VStack>
       <Modal isOpen={isOpen} onClose={onClose}>

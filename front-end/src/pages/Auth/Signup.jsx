@@ -65,6 +65,8 @@ export default function Signup() {
       return errorNotify(
         "Password must contain min 8 letters,a symbol,a upper and lower case letters and a number"
       );
+    } else if (signUp.password !== signUp.confirmPassword) {
+      return errorNotify("Password does not match");
     } else {
       if (
         signUp.email.match(validEmail) &&
@@ -79,6 +81,8 @@ export default function Signup() {
         if (err) {
           errorNotify(err?.response?.data?.message);
         }
+      } else {
+        console.log("omo");
       }
     }
   };

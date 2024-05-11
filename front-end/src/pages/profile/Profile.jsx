@@ -17,7 +17,7 @@ const Profile = () => {
 
   const isLog = async () => {
     const { profile, err } = await getUserProfile(use);
-    if (profile.status == 200) {
+    if (profile?.status == 200) {
       setProfile(profile?.data);
     }
   };
@@ -33,7 +33,7 @@ const Profile = () => {
   return (
     <>
       <Container maxW={"900px"} className="bg-black" minH={"100vh"}>
-        <UserProfile props={profile} />
+        <UserProfile props={profile} fun={isLog} />
         <UserTabs props={profile} />
       </Container>
     </>
