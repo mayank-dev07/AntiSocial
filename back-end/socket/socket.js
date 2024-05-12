@@ -1,20 +1,12 @@
 // socket.js
 import { Server } from "socket.io";
 import https from "https";
-import cors from "cors";
-
 import express from "express";
 import Message from "../models/messageModel.js";
 
 const app = express();
 const server = https.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "https://anti-social-frontend.vercel.app",
-    methods: ["GET", "POST"],
-  },
-});
-app.use(cors());
+const io = new Server(server);
 
 export const getRecipientSocketId = (recipientId) => {
   return userSocketMap[recipientId];
@@ -30,20 +22,6 @@ io.on("connection", (socket) => {
     userSocketMap[userId] = socket.id;
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   }
-
-  // socket.on("messageSeen", async ({ conversationId, userId }) => {
-  //   console.log("message seen", conversationId);
-  //   try {
-  //     await Message.updateMany(
-  //       { conversationId: conversationId, seen: false },
-  //       { $set: { seen: true } }
-  //     );
-  //     console.log({ Message });
-  //     io.to(userSocketMap[userId]).emit("messagesSeen", conversationId);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // });
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
