@@ -22,12 +22,14 @@ import {
 import { url } from "../../axios/imageurl";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useStore from "../../zustand/zustan";
 
 const SearchUser = () => {
   const [users, setUsers] = useState([]);
   const [id, setId] = useState([]);
   const [search, setSearch] = useState({ search: "" });
   const navigate = useNavigate();
+  const { user } = useStore();
 
   const getAll = async () => {
     const { res, err } = await getAllUser();
@@ -49,7 +51,7 @@ const SearchUser = () => {
   useEffect(() => {
     getAll();
     getP();
-  }, []);
+  }, [search]);
 
   const followUser = async (id) => {
     const { res, err } = await followUnFollow(id);
@@ -64,7 +66,9 @@ const SearchUser = () => {
   };
 
   const searchUser = () => {
-    if (search.search) {
+    if (search?.search) {
+      console.log(search.search);
+      console.log(users.filter((item) => item.name.startsWith(search.search)));
       setUsers(users.filter((item) => item.name.startsWith(search.search)));
     } else {
       getAll();
@@ -107,7 +111,7 @@ const SearchUser = () => {
           paddingY={{ base: 8, md: 12 }}
         >
           <Stack w={"full"}>
-            {users.length === 0 && (
+            {(users.length === 0 || users[0]._id == user?._id) && (
               <Text textAlign={"center"} fontSize={"xl"}>
                 User not found
               </Text>
