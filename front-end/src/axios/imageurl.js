@@ -1,1 +1,1 @@
-export const url = "https://anti-social-two.vercel.app";
+export const url = "https://antisocial-2qwx.onrender.com";
