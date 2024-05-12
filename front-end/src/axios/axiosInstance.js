@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const url = "https://antisocial-2qwx.onrender.com/api";
+export const url = "https://antisocial-5yx0.onrender.com/api";
 
 const axiosInstance = axios.create({
   baseURL: url,

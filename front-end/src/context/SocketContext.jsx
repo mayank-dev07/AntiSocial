@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   const { user } = useStore();
 
   useEffect(() => {
-    const newSocket = io("https://antisocial-2qwx.onrender.com", {
+    const newSocket = io("https://antisocial-5yx0.onrender.com", {
       query: {
         userId: user?._id,
       },
