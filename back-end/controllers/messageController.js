@@ -5,8 +5,7 @@ const sendMessage = async (req, res) => {
   try {
     const { id, message } = req.body;
     const senderId = req.user._id;
-    console.log(req.file);
-    console.log(req.body);
+
     let Img = "";
     if (req.file) {
       Img = req.file.path;

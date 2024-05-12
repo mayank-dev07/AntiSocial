@@ -237,7 +237,7 @@ const PostPage = () => {
                       onClick={() => handleTrash(post?._id)}
                     />
                   )}
-                  <Send cursor={"pointer"} />
+                  {/* <Send cursor={"pointer"} /> */}
                 </Flex>
                 <Flex gap={2} alignItems={"center"}>
                   <Text color={"darkgrey"}>{post?.likes?.length} Likes</Text>

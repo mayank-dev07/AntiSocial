@@ -217,7 +217,7 @@ const AllPost = (props) => {
                 onClick={() => handleTrash(props?.data?._id)}
               />
             )}
-            <Send cursor={"pointer"} />
+            {/* <Send cursor={"pointer"} /> */}
           </Flex>
           <Flex gap={2} alignItems={"center"}>
             <Text color={"darkgrey"}>{props?.data?.likes?.length} Likes</Text>
