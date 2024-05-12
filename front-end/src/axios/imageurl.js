@@ -1,1 +1,1 @@
-export const url = "https://antisocial-2qwx.onrender.com";
+export const url = "http://localhost:8000/";

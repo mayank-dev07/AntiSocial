@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   const { user } = useStore();
 
   useEffect(() => {
-    const newSocket = io("https://antisocial-2qwx.onrender.com", {
+    const newSocket = io("http://localhost:8000", {
       query: {
         userId: user?._id,
       },
