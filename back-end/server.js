@@ -12,7 +12,8 @@ import { app, server } from "./socket/socket.js";
 dotenv.config();
 connetDB();
 
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
+
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
