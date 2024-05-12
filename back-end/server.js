@@ -13,7 +13,7 @@ connetDB();
 
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
-  origin: "https://anti-social-frontend.vercel.app/",
+  origin: "http://localhost:3000",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
