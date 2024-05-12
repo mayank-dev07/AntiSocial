@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": undefined,
-    // "ngrok-skip-browser-warning": "true",
+    "ngrok-skip-browser-warning": "true",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
   },
