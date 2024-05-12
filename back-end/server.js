@@ -24,13 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
-// Custom middleware to add headers
-app.use((req, res, next) => {
-  // Add custom headers here
-  res.setHeader("X-Custom-Header", "Custom Header Value");
-  next();
-});
-
 // Static file serving
 app.use("/uploads/profileimg", express.static("uploads/profileimg"));
 app.use("/uploads/postimg", express.static("uploads/postimg"));
