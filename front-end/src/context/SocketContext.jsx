@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   const { user } = useStore();
 
   useEffect(() => {
-    const newSocket = io("http://192.168.10.59:8000", {
+    const newSocket = io("https://192.168.10.59:8000", {
       query: {
         userId: user?._id,
       },
