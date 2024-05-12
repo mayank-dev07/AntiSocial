@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const url = "http://anti-social-two.vercel.app/api/";
+export const url = "https://anti-social-two.vercel.app/api";
 
 const axiosInstance = axios.create({
   baseURL: url,
