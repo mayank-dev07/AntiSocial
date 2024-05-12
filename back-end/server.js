@@ -15,14 +15,21 @@ connetDB();
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
   origin: "https://anti-social-frontend.vercel.app",
-  credentials: true, // Set to true if your frontend sends cookies
+  credentials: true,
 };
 
 // Middlewares
-app.use(express.json()); // to parse json data in to req.body
-app.use(express.urlencoded({ extended: true })); // to parse form data in the req body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors(corsOptions)); // Enable CORS here
+app.use(cors(corsOptions));
+
+// Custom middleware to add headers
+app.use((req, res, next) => {
+  // Add custom headers here
+  res.setHeader("X-Custom-Header", "Custom Header Value");
+  next();
+});
 
 // Static file serving
 app.use("/uploads/profileimg", express.static("uploads/profileimg"));
