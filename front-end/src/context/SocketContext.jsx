@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   const { user } = useStore();
 
   useEffect(() => {
-    const newSocket = io("https://anti-social-two.vercel.app/api", {
+    const newSocket = io("https://anti-social-two.vercel.app", {
       query: {
         userId: user?._id,
       },
