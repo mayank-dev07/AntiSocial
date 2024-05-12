@@ -1,6 +1,7 @@
 // socket.js
 import { Server } from "socket.io";
 import https from "https";
+import cors from "cors";
 
 import express from "express";
 import Message from "../models/messageModel.js";
@@ -13,6 +14,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+app.use(cors());
 
 export const getRecipientSocketId = (recipientId) => {
   return userSocketMap[recipientId];

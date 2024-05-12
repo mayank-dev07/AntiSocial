@@ -33,5 +33,5 @@ app.use("/api/post", postRouter);
 app.use("/api/message", messageRouter);
 
 server.listen(PORT, () => {
-  console.log(`Server started on ${PORT}`);
+  console.log(`https://anti-social-frontend.vercel.app`);
 });
