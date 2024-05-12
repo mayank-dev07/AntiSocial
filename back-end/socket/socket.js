@@ -2,11 +2,20 @@
 import { Server } from "socket.io";
 import https from "https";
 import express from "express";
+import cors from "cors"; // Import CORS middleware
 import Message from "../models/messageModel.js";
 
 const app = express();
 const server = https.createServer(app);
 const io = new Server(server);
+
+// Apply CORS middleware
+app.use(
+  cors({
+    origin: "https://anti-social-frontend.vercel.app",
+    credentials: true,
+  })
+);
 
 export const getRecipientSocketId = (recipientId) => {
   return userSocketMap[recipientId];
