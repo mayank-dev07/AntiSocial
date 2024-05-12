@@ -15,8 +15,7 @@ connetDB();
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
   origin: "https://anti-social-frontend.vercel.app",
-  credentials: true, // access-control-allow-credentials:true
-  optionSuccessStatus: 200,
+  credentials: true, // Set to true if your frontend sends cookies
 };
 
 // Middlewares
