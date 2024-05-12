@@ -203,10 +203,7 @@ const UserProfile = (props) => {
                   <Center>
                     <Avatar
                       size="xl"
-                      src={
-                        image ||
-                        `http://localhost:8000/${props?.props?.profilepic}`
-                      }
+                      src={image || url + `${props?.props?.profilepic}`}
                     ></Avatar>
                   </Center>
                   <Center w="full">
