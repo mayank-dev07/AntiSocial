@@ -8,15 +8,6 @@ const app = express();
 const server = https.createServer(app);
 const io = new Server(server);
 
-io.use((socket, next) => {
-  // Set the CORS origin to your frontend URL
-  const origin = "https://anti-social-frontend.vercel.app";
-  // Allow requests from the specified origin
-  socket.handshake.headers.origin === origin
-    ? next()
-    : next(new Error("CORS error"));
-});
-
 export const getRecipientSocketId = (recipientId) => {
   return userSocketMap[recipientId];
 };
