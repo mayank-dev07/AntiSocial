@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const url = "https://antisocial-5yx0.onrender.com/api";
+export const url = "http://localhost:8000/api/";
 
 const axiosInstance = axios.create({
   baseURL: url,
   withCredentials: true,
   headers: {
     "Content-Type": undefined,
-    "ngrok-skip-browser-warning": "true",
+    // "ngrok-skip-browser-warning": "true",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
   },
