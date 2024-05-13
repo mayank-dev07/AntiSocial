@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const url = "http://localhost:8000/api/";
+export const url = "https://5ec9cc2347500e6f71fd424179993ff6.serveo.net/api/";
 
 const axiosInstance = axios.create({
   baseURL: url,
@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
     "Content-Type": undefined,
     // "ngrok-skip-browser-warning": "true",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
+    // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
   },
 });
 axiosInstance.interceptors.request.use(
