@@ -8,10 +8,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    credentials: true,
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
   },
-  allowEIO3: true,
 });
 
 export const getRecipientSocketId = (recipientId) => {

@@ -13,7 +13,7 @@ connetDB();
 
 const PORT = process.env.PORT || 8000;
 const corsOptions = {
-  origin: "https://anti-social-frontend.vercel.app/",
+  origin: "http://localhost:3000",
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -26,15 +26,7 @@ app.use(cors(corsOptions));
 app.use("/uploads/profileimg", express.static("uploads/profileimg"));
 app.use("/uploads/postimg", express.static("uploads/postimg"));
 app.use("/uploads/messageimg", express.static("uploads/messageimg"));
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+
 // Routes
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
@@ -42,7 +34,4 @@ app.use("/api/message", messageRouter);
 
 server.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
-});
-server.prependListener("request", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
 });
