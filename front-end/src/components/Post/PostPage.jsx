@@ -324,7 +324,7 @@ const PostPage = () => {
 
       <Modal isOpen={trashModal.isOpen} onClose={trashModal.onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={"gray.900"}>
           <ModalHeader>Delete the post?</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -350,7 +350,7 @@ const PostPage = () => {
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={"gray.700"}>
           <ModalHeader>Comment on the post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

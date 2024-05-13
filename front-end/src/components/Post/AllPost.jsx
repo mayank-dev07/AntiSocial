@@ -237,7 +237,7 @@ const AllPost = (props) => {
 
       <Modal isOpen={trashModal.isOpen} onClose={trashModal.onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={"gray.900"}>
           <ModalHeader>Delete the post?</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -263,7 +263,7 @@ const AllPost = (props) => {
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={"gray.900"}>
           <ModalHeader>Comment on the post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

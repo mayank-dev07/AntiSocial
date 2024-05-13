@@ -10,7 +10,7 @@ export const useSocket = () => {
 
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const [onlineUsers, setonlineUsers] = useState([]);
+  // const [onlineUsers, setonlineUsers] = useState([]);
   const { user } = useStore();
 
   useEffect(() => {
@@ -27,25 +27,25 @@ export const SocketContextProvider = ({ children }) => {
     };
   }, [user?._id]);
 
-  useEffect(() => {
-    if (socket) {
-      socket.on("getOnlineUsers", (users) => {
-        setonlineUsers(users);
-        console.log(onlineUsers);
-      });
-      console.log(user);
-      socket.on("connect", () => {
-        console.log("Connected to Socket.IO server");
-      });
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.on("getOnlineUsers", (users) => {
+  //       setonlineUsers(users);
+  //       console.log(onlineUsers);
+  //     });
+  //     console.log(user);
+  //     socket.on("connect", () => {
+  //       console.log("Connected to Socket.IO server");
+  //     });
 
-      socket.on("error", (error) => {
-        console.error("Socket.IO error:", error);
-      });
-    }
-  }, [socket]);
+  //     socket.on("error", (error) => {
+  //       console.error("Socket.IO error:", error);
+  //     });
+  //   }
+  // }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ socket, onlineUsers }}>
+    <SocketContext.Provider value={{ socket }}>
       {children}
     </SocketContext.Provider>
   );

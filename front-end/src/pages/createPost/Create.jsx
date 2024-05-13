@@ -103,7 +103,7 @@ const Create = () => {
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered size={"3xl"}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={"gray.900"}>
           <ModalHeader>
             <Flex
               w={"full"}
@@ -118,6 +118,11 @@ const Create = () => {
 
           <ModalBody>
             <form onSubmit={createPost} encType="multipart/form-data">
+              <Flex>
+                <Text py={4} fontSize={16} fontWeight={"semibold"}>
+                  Add a caption for your post
+                </Text>
+              </Flex>
               <Input
                 placeholder="Caption"
                 onChange={postTextChange}
@@ -130,10 +135,21 @@ const Create = () => {
                 }}
               ></Input>
 
+              <Flex w={"full"}>
+                <Text
+                  pt={6}
+                  fontSize={16}
+                  fontWeight={"semibold"}
+                  w={"full"}
+                  textAlign={"center"}
+                >
+                  Select a Image for your post
+                </Text>
+              </Flex>
               <Container
                 display={"flex"}
                 justifyContent={"center"}
-                paddingTop={4}
+                paddingY={4}
               >
                 <Box w={"full"} display={"flex"} justifyContent={"center"}>
                   {postImg && <Image src={postImg} alt="Dan Abramov" />}
@@ -165,7 +181,7 @@ const Create = () => {
               </Flex>
               <Divider orientation="horizontal" paddingY={2} />
               <Flex w={"full"} justifyContent={"center"} pt={4}>
-                <Button type="submit">Add</Button>
+                <Button type="submit">Add Post</Button>
               </Flex>
             </form>
           </ModalBody>

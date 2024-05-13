@@ -13,7 +13,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -25,7 +24,7 @@ import { ImagePlus, MessageSquareQuote, Send } from "lucide-react";
 import { url } from "../../axios/imageurl";
 import { getMessages, sendMessages } from "../../axios/request";
 import { useSocket } from "../../context/SocketContext.jsx";
-import useStore from "../../zustand/zustan.js";
+// import useStore from "../../zustand/zustan.js";
 
 const ChatArea = (props) => {
   const [message, setMessage] = useState([]);
@@ -33,7 +32,7 @@ const ChatArea = (props) => {
   const Ref = useRef(null);
   const { socket } = useSocket();
   const fileRef = useRef(false);
-  const { user } = useStore();
+  // const { user } = useStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [image, setImage] = useState();
   const [imageMessage, setImageMessage] = useState({
@@ -275,7 +274,7 @@ const ChatArea = (props) => {
 
           <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent bg={"gray.900"}>
               <ModalHeader>Send Image</ModalHeader>
               <ModalCloseButton />
               <ModalBody>

@@ -180,7 +180,7 @@ const UserProfile = (props) => {
       </VStack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={"gray.900"}>
           <Stack
             spacing={4}
             w={"full"}

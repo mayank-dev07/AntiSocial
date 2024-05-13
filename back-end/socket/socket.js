@@ -2,7 +2,7 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
-import Message from "../models/messageModel.js";
+// import Message from "../models/messageModel.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -19,13 +19,13 @@ export const getRecipientSocketId = (recipientId) => {
 const userSocketMap = {};
 
 io.on("connection", (socket) => {
-  console.log("user connected", socket.id);
+  // console.log("user connected", socket.id);
 
   const userId = socket.handshake.query.userId;
 
   if (userId !== "undefined") {
     userSocketMap[userId] = socket.id;
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    //   io.emit("getOnlineUsers", Object.keys(userSocketMap));
   }
 
   // socket.on("messageSeen", async ({ conversationId, userId }) => {
@@ -43,9 +43,9 @@ io.on("connection", (socket) => {
   // });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    // console.log("user disconnected");
     delete userSocketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    // io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });
 
