@@ -176,7 +176,7 @@ const AllPost = (props) => {
               >
                 <Image
                   src={`${url + props?.data?.img}`}
-                  alt="Dan Abramov"
+                  alt="post image"
                   w={"fit-content"}
                   maxH={"60vh"}
                 />

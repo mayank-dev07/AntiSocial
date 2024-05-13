@@ -4,12 +4,14 @@ import UserTabs from "../../components/User/UserTabs";
 import { getUserProfile, isLoggedIn } from "../../axios/request";
 import { Container } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
+import useStore from "../../zustand/zustan";
 
 const Profile = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const [profile, setProfile] = useState();
   const [use, setUse] = useState();
+  const { user } = useStore();
 
   useEffect(() => {
     setUse(pathname.split("/")[3]);
@@ -28,7 +30,7 @@ const Profile = () => {
     setTimeout(() => {
       console.log();
     });
-  }, [use]);
+  }, [use, user]);
 
   return (
     <>
