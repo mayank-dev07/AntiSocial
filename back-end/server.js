@@ -26,7 +26,13 @@ app.use(cors(corsOptions));
 app.use("/uploads/profileimg", express.static("uploads/profileimg"));
 app.use("/uploads/postimg", express.static("uploads/postimg"));
 app.use("/uploads/messageimg", express.static("uploads/messageimg"));
-
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+  next();
+});
 // Routes
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
