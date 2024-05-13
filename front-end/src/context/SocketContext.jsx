@@ -14,14 +14,11 @@ export const SocketContextProvider = ({ children }) => {
   const { user } = useStore();
 
   useEffect(() => {
-    const newSocket = io(
-      "https://5ec9cc2347500e6f71fd424179993ff6.serveo.net",
-      {
-        query: {
-          userId: user?._id,
-        },
-      }
-    );
+    const newSocket = io("http://localhost:8000/", {
+      query: {
+        userId: user?._id,
+      },
+    });
 
     setSocket(newSocket);
 
