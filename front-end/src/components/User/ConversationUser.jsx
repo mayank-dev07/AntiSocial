@@ -13,7 +13,6 @@ import useStore from "../../zustand/zustan";
 
 const ConversationUser = (props) => {
   const { user } = useStore();
-  console.log(props);
 
   return (
     <>

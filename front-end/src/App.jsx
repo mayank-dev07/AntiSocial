@@ -11,8 +11,22 @@ import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./index.css";
 import Loader from "./components/loader/Loader";
+// import { useLocation } from "react-router-dom";
+// import { useEffect, useLayoutEffect } from "react";
+// import useStore from "./zustand/zustan";
 
 function App() {
+  // const { setPathName } = useStore();
+  // const location = useLocation();
+  // const pathname = location.pathname;
+
+  // useLayoutEffect(() => {
+  //   const array = pathname.split("/");
+  //   const path = array[array.length - 1];
+  //   setPathName(path);
+  //   // console.log(path);
+  // }, [pathname]);
+
   return (
     <>
       <Loader />

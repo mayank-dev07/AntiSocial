@@ -10,18 +10,18 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": undefined,
-    // "ngrok-skip-browser-warning": "true",
     "Access-Control-Allow-Origin": "*",
-    // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
   },
 });
 axiosInstance.interceptors.request.use(
   function (config) {
-    IncCount();
+    // console.log(config.url);
+    if (config.url.split("/")[0] !== "message") IncCount();
 
     return config;
   },
   function (error) {
+    console.log(error);
     decCount();
 
     return Promise.reject(error);
@@ -30,7 +30,8 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   function (response) {
-    decCount();
+    // console.log(response.config);
+    if (response.config.url.split("/")[0] !== "message") decCount();
 
     return response;
   },

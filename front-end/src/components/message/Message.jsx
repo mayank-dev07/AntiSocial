@@ -7,9 +7,9 @@ import { Check, CheckCheck } from "lucide-react";
 const Message = (props) => {
   const { user } = useStore();
 
-  useEffect(() => {
-    console.log(props.props);
-  }, [props]);
+  // useEffect(() => {
+  //   console.log(props.props);
+  // }, [props]);
   return (
     <>
       {props.props.sender._id == user._id ? (

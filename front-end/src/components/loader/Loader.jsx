@@ -6,9 +6,9 @@ import { Flex } from "@chakra-ui/react";
 
 const Loader = () => {
   const { counter } = Store();
-  useEffect(() => {
-    console.log(counter);
-  }, [counter]);
+  // useEffect(() => {
+  //   console.log(counter);
+  // }, [counter]);
 
   useLayoutEffect(() => {
     if (counter > 0) {
