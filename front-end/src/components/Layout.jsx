@@ -15,6 +15,7 @@ import {
 import useStore from "../zustand/zustan";
 import { getUserProfile, isLoggedIn } from "../axios/request";
 import Create from "../pages/createPost/Create";
+import Loader from "./loader/Loader";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Layout = () => {
       {/* <Flex justifyContent={"center"} paddingY={{ base: 3, md: 5 }}>
           header
         </Flex> */}
+      {/* <Loader /> */}
       <Outlet />
       <Flex
         justifyContent={"center"}

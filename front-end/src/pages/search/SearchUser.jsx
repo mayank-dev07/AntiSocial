@@ -111,7 +111,8 @@ const SearchUser = () => {
           paddingY={{ base: 8, md: 12 }}
         >
           <Stack w={"full"}>
-            {(users.length === 0 || users[0]._id == user?._id) && (
+            {(users.length === 0 ||
+              (users.length === 1 && users[0]._id !== user?._id)) && (
               <Text textAlign={"center"} fontSize={"xl"}>
                 User not found
               </Text>

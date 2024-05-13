@@ -10,10 +10,12 @@ import Chat from "./pages/chat/Chat";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./index.css";
+import Loader from "./components/loader/Loader";
 
 function App() {
   return (
     <>
+      <Loader />
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Auth />}>

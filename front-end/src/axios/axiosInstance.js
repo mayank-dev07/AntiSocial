@@ -1,6 +1,9 @@
 import axios from "axios";
-
+import useStore from "../zustand/zustan";
 export const url = "http://localhost:8080/api/";
+
+const IncCount = useStore.getState().increaseCounter;
+const decCount = useStore.getState().decreaseCounter;
 
 const axiosInstance = axios.create({
   baseURL: url,
@@ -14,18 +17,25 @@ const axiosInstance = axios.create({
 });
 axiosInstance.interceptors.request.use(
   function (config) {
+    IncCount();
+
     return config;
   },
   function (error) {
+    decCount();
+
     return Promise.reject(error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   function (response) {
+    decCount();
+
     return response;
   },
   function (error) {
+    decCount();
     return Promise.reject(error);
   }
 );

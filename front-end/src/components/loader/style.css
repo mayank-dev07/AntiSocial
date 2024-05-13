@@ -1,0 +1,31 @@
+.body {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+
+  backdrop-filter: blur(40px);
+}
+
+.path {
+  stroke-dasharray: 100;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2px;
+  animation: dash 2s linear  infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 10;
+    stroke-opacity: 1;
+  }
+  /* 50% {
+    stroke-dashoffset: 800;
+  } */
+  100% {
+    stroke-dashoffset: 1000;
+    stroke-opacity: 1;
+  }
+}
