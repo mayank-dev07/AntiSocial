@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const url = "https://5ec9cc2347500e6f71fd424179993ff6.serveo.net/api/";
+export const url = "http://localhost:8000/api/";
 
 const axiosInstance = axios.create({
   baseURL: url,
