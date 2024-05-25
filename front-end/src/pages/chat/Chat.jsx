@@ -36,7 +36,7 @@ const Chat = () => {
   const { user } = useStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [width, setWidth] = useState(window.innerWidth);
-  // const { onlineUsers } = useSocket();
+  const { onlineUsers } = useSocket();
 
   useEffect(() => {
     const handleResize = () => {
@@ -166,7 +166,7 @@ const Chat = () => {
                   <Box key={index} onClick={() => showMessage(item)} w={"full"}>
                     <ConversationUser
                       props={item}
-                      // isOnline={onlineUsers.includes(item.participants[0]._id)}
+                      isOnline={onlineUsers.includes(item.participants[0]._id)}
                     />
                   </Box>
                 ))}

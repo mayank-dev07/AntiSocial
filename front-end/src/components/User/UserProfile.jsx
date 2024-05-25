@@ -49,7 +49,7 @@ const UserProfile = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const fileRef = useRef(false);
   const [image, setImage] = useState(null);
-  const { user } = useStore();
+  const { user, setUser } = useStore();
 
   const successNotify = (message) => {
     toast.success(message, {
@@ -113,6 +113,7 @@ const UserProfile = (props) => {
     const { res } = await logoutUser();
     if (res.status == 200) {
       navigate("/");
+      setUser({});
     }
   };
 

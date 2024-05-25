@@ -17,40 +17,36 @@ export const getRecipientSocketId = (recipientId) => {
   return userSocketMap[recipientId];
 };
 const userSocketMap = {};
+const onlineUsers = [];
 
 io.on("connection", (socket) => {
-  // console.log("user connected", socket.id);
-
   const userId = socket.handshake.query.userId;
 
-  if (userId !== "undefined") {
+  if (userId && userId !== "undefined") {
+    console.log("userId", userId);
     userSocketMap[userId] = socket.id;
-    //   io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+    if (!onlineUsers.includes(userId)) {
+      onlineUsers.push(userId);
+    }
+    // console.log(onlineUsers);
+    io.emit("getOnlineUsers", onlineUsers);
   }
 
-  // socket.on("messageSeen", async ({ conversationId, userId }) => {
-  //   console.log("message seen", conversationId);
-  //   try {
-  //     await Message.updateMany(
-  //       { conversationId: conversationId, seen: false },
-  //       { $set: { seen: true } }
-  //     );
-  //     console.log({ Message });
-  //     io.to(userSocketMap[userId]).emit("messagesSeen", conversationId);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // });
-
   socket.on("disconnect", () => {
-    // console.log("user disconnected");
-    delete userSocketMap[userId];
-    // io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    const userId = Object.keys(userSocketMap).find(
+      (key) => userSocketMap[key] === socket.id
+    );
+    if (userId) {
+      delete userSocketMap[userId];
+      const index = onlineUsers.indexOf(userId);
+      if (index !== -1) {
+        onlineUsers.splice(index, 1);
+      }
+      // console.log(onlineUsers);
+      io.emit("getOnlineUsers", onlineUsers);
+    }
   });
-});
-
-io.on("error", (err) => {
-  console.error("Socket.IO error:", err);
 });
 
 export { io, server, app };
