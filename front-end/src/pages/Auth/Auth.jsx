@@ -7,14 +7,14 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     navigate("/login");
   }, []);
 

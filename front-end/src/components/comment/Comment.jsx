@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { url } from "../../axios/imageurl";
 
 const Comment = (props) => {
-  console.log(props);
+  // //console.log(props);
 
   return (
     <>

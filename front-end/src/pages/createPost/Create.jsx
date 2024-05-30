@@ -50,16 +50,16 @@ const Create = () => {
 
   const createPost = async (e) => {
     e.preventDefault();
-    console.log(post);
+    //console.log(post);
     try {
       const formData = new FormData();
       formData.append("postedBy", user?._id);
       formData.append("text", post.text);
       formData.append("img", post.Img);
 
-      console.log(formData);
+      //console.log(formData);
       const { res, err } = await addPost(formData);
-      console.log(res);
+      //console.log(res);
       if (res?.status == 200) {
         successNotify(res.data.message);
         onClose();
@@ -67,9 +67,9 @@ const Create = () => {
         setPostImg("");
         isLog();
       }
-      console.log(err);
+      //console.log(err);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      //console.error("Error updating profile:", error);
     }
   };
 
@@ -85,7 +85,7 @@ const Create = () => {
 
   const handelImgChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    //console.log(file);
     setPost({
       ...post,
       [e.target.name]: file,

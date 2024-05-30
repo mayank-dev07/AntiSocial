@@ -110,7 +110,7 @@ export const likePost = async (value) => {
 
 export const addPost = async (value) => {
   try {
-    console.log(value);
+    // //console.log(value);
     const res = await axiosInstance.post("post/create", value);
     return { res: res, err: null };
   } catch (err) {
@@ -120,7 +120,7 @@ export const addPost = async (value) => {
 
 export const addComment = async (value) => {
   try {
-    console.log(value);
+    // //console.log(value);
     const res = await axiosInstance.post("post/reply", value);
     return { res: res, err: null };
   } catch (err) {
@@ -130,7 +130,7 @@ export const addComment = async (value) => {
 
 export const deletefeed = async (value) => {
   try {
-    console.log(value);
+    // //console.log(value);
     const res = await axiosInstance.delete(`post/${value}`);
     return { res: res, err: null };
   } catch (err) {

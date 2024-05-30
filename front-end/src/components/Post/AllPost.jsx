@@ -17,16 +17,8 @@ import {
   Container,
   Button,
   useDisclosure,
-  Tr,
 } from "@chakra-ui/react";
-import {
-  Ellipsis,
-  MessageCircle,
-  Send,
-  Repeat,
-  Trash2,
-  Trash,
-} from "lucide-react";
+import { MessageCircle, Repeat, Trash2 } from "lucide-react";
 import { url } from "../../axios/imageurl";
 import { addComment, addPost, deletefeed, likePost } from "../../axios/request";
 import useStore from "../../zustand/zustan";
@@ -42,6 +34,8 @@ const AllPost = (props) => {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const trashModal = useDisclosure();
+  const repeatModal = useDisclosure();
+  const [post, setPost] = useState({});
   const [deletePostId, setDeletePostId] = useState("");
   const [comment, setComment] = useState({ text: "", id: "" });
 
@@ -69,54 +63,60 @@ const AllPost = (props) => {
 
   const addCommentText = async (e) => {
     e.preventDefault();
-    console.log(comment);
+    //console.log(comment);
     const { res, err } = await addComment(comment);
-    console.log(res);
+    //console.log(res);
     if (res?.status == 200) {
       onClose();
       setComment({ text: "", id: "" });
       props.fun();
     }
-    console.log(err);
+    //console.log(err);
   };
 
-  const createPost = async (post, e) => {
-    e.preventDefault();
-    console.log(post.img);
+  const createPost = async () => {
+    // e.preventDefault();
+    //console.log(post.img);
     try {
       const formData = new FormData();
       formData.append("postedBy", user?._id);
       formData.append("text", post.text);
       formData.append("img", post.img);
 
-      console.log(formData);
+      //console.log(formData);
       const { res, err } = await addPost(formData);
-      console.log(res);
+      //console.log(res);
       if (res?.status == 200) {
         successNotify("This post is re-posted by you");
-        onClose();
+        repeatModal.onClose();
       }
-      console.log(err);
+      //console.log(err);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      //console.error("Error updating profile:", error);
     }
   };
 
   const handleTrash = (id) => {
-    console.log(id);
+    //console.log(id);
     setDeletePostId(id);
     trashModal.onOpen();
   };
 
+  const handleRepeat = (post) => {
+    //console.log(post);
+    setPost(post);
+    repeatModal.onOpen();
+  };
+
   const deletePost = async (id) => {
     const { res, err } = await deletefeed(id);
-    console.log(res);
+    //console.log(res);
     if (res.status == 200) {
       successNotify(res.data.message);
       setDeletePostId("");
       trashModal.onClose();
     }
-    console.log(err);
+    //console.log(err);
     props.fun();
   };
 
@@ -133,19 +133,6 @@ const AllPost = (props) => {
               navigate(`/home/profile/${props?.data?.postedBy?.username}`);
             }}
           />
-          {/* <Box w={"1px"} h={"full"} bg={"darkgray"} my={3}></Box> */}
-          {/* <Box position={"relative"}>
-            <AvatarGroup size={{ base: "xs", md: "sm" }} max={2}>
-              <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
-              <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
-              <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
-              <Avatar
-                name="Prosper Otemuyiwa"
-                src="https://bit.ly/prosper-baba"
-              />
-              <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
-            </AvatarGroup>
-          </Box> */}
         </Flex>
         <Flex w={"full"} direction={"column"} gap={2}>
           <Box onClick={() => routePost(props?.data?._id)} cursor={"pointer"}>
@@ -208,7 +195,8 @@ const AllPost = (props) => {
             {props?.data?.postedBy._id !== user?._id ? (
               <Repeat
                 cursor={"pointer"}
-                onClick={(e) => createPost(props?.data, e)}
+                // onClick={(e) => createPost(props?.data, e)}
+                onClick={(e) => handleRepeat(props?.data)}
               />
             ) : (
               <Trash2
@@ -255,6 +243,37 @@ const AllPost = (props) => {
                 _hover={{ bg: "red.600" }}
               >
                 Delete Post
+              </Button>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={repeatModal.isOpen}
+        onClose={repeatModal.onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bg={"gray.900"}>
+          <ModalHeader>Repost this post?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              direction={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={4}
+              py={4}
+            >
+              <Text fontSize={20}>This action cannot be undone.</Text>
+              <Button
+                type="button"
+                onClick={() => createPost()}
+                bg={"blue.500"}
+                _hover={{ bg: "blue.600" }}
+              >
+                Re-Post
               </Button>
             </Flex>
           </ModalBody>

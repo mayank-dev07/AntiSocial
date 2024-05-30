@@ -4,7 +4,7 @@ const connetDB = async () => {
   try {
     await mongoose.connect(process.env.URI, {});
   } catch (error) {
-    console.log(error);
+    // //console.log(error);
   }
 };
 

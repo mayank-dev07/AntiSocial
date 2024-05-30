@@ -30,13 +30,13 @@ export const SocketContextProvider = ({ children }) => {
     if (socket) {
       socket.on("getOnlineUsers", (users) => {
         setonlineUsers(users);
-        // console.log(users);
+        // //console.log(users);
       });
     }
   }, [socket]);
 
   // useEffect(() => {
-  //   console.log(onlineUsers);
+  //   //console.log(onlineUsers);
   // }, [onlineUsers, socket]);
 
   return (

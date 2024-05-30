@@ -36,7 +36,7 @@ export default function Login() {
   useEffect(() => {
     const log = async () => {
       const { res, err } = await isLoggedIn();
-      console.log(res, err);
+      //console.log(res, err);
       if (res?.status == 200) {
         navigate(`/home/${res.data.name}`);
       }
@@ -59,7 +59,7 @@ export default function Login() {
   };
 
   const loginUser = async () => {
-    console.log(login);
+    //console.log(login);
     if (
       // !login.username ||
       !login.email ||

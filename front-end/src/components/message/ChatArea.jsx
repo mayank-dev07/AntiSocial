@@ -63,7 +63,7 @@ const ChatArea = (props) => {
       const { res, err } = await getMessages(id);
       if (res?.status === 200) {
         setMessage(res.data);
-        // console.log(res.data);
+        // //console.log(res.data);
       } else {
         setMessage([]);
       }
@@ -117,7 +117,7 @@ const ChatArea = (props) => {
 
   const handelImgChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    //console.log(file);
     setImageMessage({
       ...imageMessage,
       [e.target.name]: file,
@@ -126,8 +126,8 @@ const ChatArea = (props) => {
   };
 
   const sendImage = async () => {
-    // console.log(imageText);
-    console.log(imageMessage);
+    // //console.log(imageText);
+    //console.log(imageMessage);
     const formData = new FormData();
     formData.append("Img", imageMessage.Img);
     formData.append("message", imageMessage.message);
@@ -143,7 +143,7 @@ const ChatArea = (props) => {
       }
       props.fun();
     }
-    // console.log(e);
+    // //console.log(e);
   };
 
   return (

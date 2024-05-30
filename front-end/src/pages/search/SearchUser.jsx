@@ -58,7 +58,7 @@ const SearchUser = () => {
     if (res?.status == 200) {
       getAll();
     }
-    console.log(err);
+    //console.log(err);
   };
 
   const handelChange = (e) => {
@@ -67,8 +67,8 @@ const SearchUser = () => {
 
   const searchUser = () => {
     if (search?.search) {
-      console.log(search.search);
-      console.log(users.filter((item) => item.name.startsWith(search.search)));
+      //console.log(search.search);
+      //console.log(users.filter((item) => item.name.startsWith(search.search)));
       setUsers(users.filter((item) => item.name.startsWith(search.search)));
     } else {
       getAll();

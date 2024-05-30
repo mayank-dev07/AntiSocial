@@ -57,13 +57,13 @@ const UserProfile = (props) => {
     });
   };
   // useEffect(() => {
-  //   console.log(props);
-  //   console.log(user);
+  //   //console.log(props);
+  //   //console.log(user);
   // }, [props, user]);
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    // console.log(update);
+    // //console.log(update);
 
     try {
       const formData = new FormData();
@@ -79,17 +79,17 @@ const UserProfile = (props) => {
         if (update.username) {
           navigate(`/home/profile/${update.username}`);
         }
-        console.log(res);
+        //console.log(res);
         successNotify(res.data.message);
         onClose();
         setTimeout(() => {
           props.fun();
         }, 2000);
       } else {
-        console.log(err);
+        //console.log(err);
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
+      //console.error("Error updating profile:", error);
     }
   };
 

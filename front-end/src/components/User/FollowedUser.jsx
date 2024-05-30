@@ -6,7 +6,7 @@ import { MessageCircleMore } from "lucide-react";
 
 const FollowedUser = (props) => {
   // useEffect(() => {
-  //   console.log(props);
+  //   //console.log(props);
   // }, [props]);
 
   return (

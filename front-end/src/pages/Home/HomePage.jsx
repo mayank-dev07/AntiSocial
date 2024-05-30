@@ -8,7 +8,7 @@ const HomePage = () => {
 
   const isLog = async () => {
     const { res, err } = await isLoggedIn();
-    // console.log(res);
+    // //console.log(res);
     if (err) {
       navigate("/");
     }
@@ -20,7 +20,7 @@ const HomePage = () => {
 
   const feed = async () => {
     const { res, err } = await getFeeds();
-    // console.log(res.data);
+    // //console.log(res.data);
     if (res.status == 200) {
       setFeeds(res.data);
     }

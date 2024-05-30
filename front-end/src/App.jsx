@@ -24,7 +24,7 @@ function App() {
   //   const array = pathname.split("/");
   //   const path = array[array.length - 1];
   //   setPathName(path);
-  //   // console.log(path);
+  //   // //console.log(path);
   // }, [pathname]);
 
   return (
@@ -33,8 +33,8 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Auth />}>
-          <Route path="login" index element={<Login />}></Route>
-          <Route path="signup" element={<Signup />}></Route>
+          <Route path="/login" index element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
         </Route>
         <Route path="/home" element={<Layout />}>
           <Route path=":username" element={<HomePage />} />

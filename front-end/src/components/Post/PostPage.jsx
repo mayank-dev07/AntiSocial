@@ -57,12 +57,12 @@ const PostPage = () => {
 
   useEffect(() => {
     getOnePost();
-    console.log(post);
+    //console.log(post);
   }, [postId]);
 
   const likeUnlike = async (id) => {
     const { res, err } = await likePost(id);
-    console.log(res);
+    //console.log(res);
     if (res?.status == 200) {
       getOnePost();
     }
@@ -70,7 +70,7 @@ const PostPage = () => {
 
   const getOnePost = async () => {
     const { res, err } = await getUserPost(postId);
-    console.log(res.data);
+    //console.log(res.data);
     if (res?.status == 200) {
       setPost(res.data[0]);
     }
@@ -87,36 +87,36 @@ const PostPage = () => {
 
   const addCommentText = async (e) => {
     e.preventDefault();
-    console.log(comment);
+    //console.log(comment);
     const { res, err } = await addComment(comment);
-    console.log(res);
+    //console.log(res);
     if (res?.status == 200) {
       onClose();
       setComment({ text: "", id: "" });
       getOnePost();
     }
-    console.log(err);
+    //console.log(err);
   };
 
   const createPost = async (post, e) => {
     e.preventDefault();
-    console.log(post.img);
+    //console.log(post.img);
     try {
       const formData = new FormData();
       formData.append("postedBy", user?._id);
       formData.append("text", post.text);
       formData.append("img", post.img);
 
-      console.log(formData);
+      //console.log(formData);
       const { res, err } = await addPost(formData);
-      console.log(res);
+      //console.log(res);
       if (res?.status == 200) {
         successNotify("This post is re-posted by you");
         onClose();
       }
-      console.log(err);
+      //console.log(err);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      //console.error("Error updating profile:", error);
     }
   };
 
@@ -126,7 +126,7 @@ const PostPage = () => {
     });
   };
   const handleTrash = (id) => {
-    console.log(id);
+    //console.log(id);
     setDeletePostId(id);
     trashModal.onOpen();
   };
@@ -139,7 +139,7 @@ const PostPage = () => {
       setDeletePostId("");
       trashModal.onClose();
     }
-    console.log(err);
+    //console.log(err);
   };
 
   return (
@@ -176,7 +176,7 @@ const PostPage = () => {
                         `${formatDistanceToNow(new Date(post?.createdAt))} ago
                           `}
                     </Text>
-                    <Ellipsis />
+                    {/* <Ellipsis /> */}
                   </Flex>
                 </Flex>
                 <Box cursor={"pointer"}>

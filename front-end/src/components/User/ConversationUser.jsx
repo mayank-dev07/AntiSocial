@@ -5,6 +5,7 @@ import {
   Divider,
   Flex,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import React from "react";
 import { url } from "../../axios/imageurl";
@@ -63,7 +64,15 @@ const ConversationUser = (props) => {
             )
             // )
           )}
-          <MessageCircleMore />
+          <Tooltip
+            hasArrow
+            label="Wanna chat!!"
+            bg="black"
+            color="white"
+            rounded={5}
+          >
+            <MessageCircleMore />
+          </Tooltip>
         </Flex>
         <Divider orientation="horizontal" w={"full"} marginY={2} />
       </Flex>

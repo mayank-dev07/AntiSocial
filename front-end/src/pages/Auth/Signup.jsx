@@ -74,7 +74,7 @@ export default function Signup() {
         signUp.password === signUp.confirmPassword
       ) {
         const { res, err } = await signUpApi(signUp);
-        if (res.status == 201) {
+        if (res?.status == 201) {
           navigate(`/home/${res.data.name}`);
           setSignUp(initialState);
         }
@@ -82,7 +82,7 @@ export default function Signup() {
           errorNotify(err?.response?.data?.message);
         }
       } else {
-        console.log("omo");
+        //console.log("error");
       }
     }
   };

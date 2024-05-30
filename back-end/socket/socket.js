@@ -23,13 +23,13 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
 
   if (userId && userId !== "undefined") {
-    console.log("userId", userId);
+    // //console.log("userId", userId);
     userSocketMap[userId] = socket.id;
 
     if (!onlineUsers.includes(userId)) {
       onlineUsers.push(userId);
     }
-    // console.log(onlineUsers);
+    // //console.log(onlineUsers);
     io.emit("getOnlineUsers", onlineUsers);
   }
 
@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
       if (index !== -1) {
         onlineUsers.splice(index, 1);
       }
-      // console.log(onlineUsers);
+      // //console.log(onlineUsers);
       io.emit("getOnlineUsers", onlineUsers);
     }
   });

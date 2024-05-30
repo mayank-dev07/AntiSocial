@@ -17,7 +17,7 @@ const UserHome = (props) => {
 
   const getThePost = async () => {
     const { res, err } = await getPost(props?.props?._id);
-    // console.log(res);
+    // //console.log(res);
     if (res?.status == 200) {
       setPosts(res?.data);
     }

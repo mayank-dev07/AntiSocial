@@ -25,10 +25,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log(use);
+    //console.log(use);
     isLog(use);
     setTimeout(() => {
-      console.log();
+      //console.log();
     });
   }, [use, user]);
 

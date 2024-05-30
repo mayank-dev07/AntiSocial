@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Flex, Text, Avatar } from "@chakra-ui/react";
-import { formatDistanceToNow } from "date-fns";
 import { url } from "../../axios/imageurl";
 
 const Likes = (props) => {
-  console.log(props);
+  // //console.log(props);
   return (
     <>
       <Flex w={"full"} gap={5}>
