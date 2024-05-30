@@ -4,7 +4,6 @@ import User from "../models/userModel.js";
 const createPost = async (req, res) => {
   try {
     const { postedBy, text } = req.body;
-    console.log(req.body.img);
 
     let img = "";
 
