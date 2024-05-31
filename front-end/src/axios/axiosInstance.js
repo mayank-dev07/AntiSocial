@@ -1,6 +1,6 @@
 import axios from "axios";
 import useStore from "../zustand/zustan";
-export const url = " https://b43c5c841f0ed01b5817557c8a2ace44.serveo.net/api/";
+export const url = "http://localhost:8080/api/";
 
 const IncCount = useStore.getState().increaseCounter;
 const decCount = useStore.getState().decreaseCounter;
@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": undefined,
-    // "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 axiosInstance.interceptors.request.use(

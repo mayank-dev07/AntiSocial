@@ -8,7 +8,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://b43c5c841f0ed01b5817557c8a2ace44.serveo.net",
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
   },
 });
 
