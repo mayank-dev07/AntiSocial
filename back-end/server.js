@@ -11,9 +11,9 @@ import { app, server } from "./socket/socket.js";
 dotenv.config();
 connetDB();
 
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 8000;
 const corsOptions = {
-  origin: "*",
+  origin: "https://anti-social-frontend.vercel.app/",
   credentials: true,
   optionSuccessStatus: 200,
 };
