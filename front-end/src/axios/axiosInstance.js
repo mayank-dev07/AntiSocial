@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": undefined,
-    "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Origin": "*",
   },
 });
 axiosInstance.interceptors.request.use(
