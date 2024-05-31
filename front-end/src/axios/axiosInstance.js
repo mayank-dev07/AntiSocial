@@ -1,6 +1,6 @@
 import axios from "axios";
 import useStore from "../zustand/zustan";
-export const url = "https://localhost:8080/api/";
+export const url = "http://localhost:8080/api/";
 
 const IncCount = useStore.getState().increaseCounter;
 const decCount = useStore.getState().decreaseCounter;
