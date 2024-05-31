@@ -22,6 +22,9 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
 } from "@chakra-ui/react";
 import { AlignJustify, LogOut } from "lucide-react";
 import {
@@ -29,11 +32,15 @@ import {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  getAllUser,
 } from "../../axios/request";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useStore from "../../zustand/zustan";
 import { url } from "../../axios/imageurl";
+import FollowedUser from "./FollowedUser";
+// import FollowedUser from "./FollowedUser";
+// import Followings from "../followings/Followings";
 
 const updateprofile = {
   username: "",
@@ -47,23 +54,33 @@ const UserProfile = (props) => {
   const navigate = useNavigate();
   const [update, setUpdate] = useState(updateprofile);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const followingModal = useDisclosure();
+  const followerModal = useDisclosure();
   const fileRef = useRef(false);
   const [image, setImage] = useState(null);
   const { user, setUser } = useStore();
+  const [allUsers, setAllUsers] = useState([]);
 
   const successNotify = (message) => {
     toast.success(message, {
       theme: "dark",
     });
   };
-  // useEffect(() => {
-  //   //console.log(props);
-  //   //console.log(user);
-  // }, [props, user]);
+
+  const infoNotify = (message) => {
+    toast.info(message, {
+      theme: "dark",
+    });
+  };
+
+  const message = (message) => {
+    return () => {
+      infoNotify(message);
+    };
+  };
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    // //console.log(update);
 
     try {
       const formData = new FormData();
@@ -117,6 +134,23 @@ const UserProfile = (props) => {
     }
   };
 
+  const followingUsers = () => {
+    getAll();
+    followingModal.onOpen();
+  };
+
+  const followerUsers = () => {
+    getAll();
+    followerModal.onOpen();
+  };
+
+  const getAll = async () => {
+    const { res, err } = await getAllUser();
+    if (res?.status == 200) {
+      setAllUsers(res.data);
+    }
+  };
+
   return (
     <>
       <VStack spacing={{ base: 6, md: 8 }} paddingX={2} paddingY={8}>
@@ -142,13 +176,39 @@ const UserProfile = (props) => {
         </Flex>
         <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
           <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={{ base: 14, md: 16 }}>
-              {props?.props?.followers?.length} followers
-            </Text>
+            {props?.props?.followers?.length > 0 ? (
+              <Box onClick={followerUsers} cursor={"pointer"}>
+                <Text fontSize={{ base: 14, md: 16 }}>
+                  {props?.props?.followers?.length} followers
+                </Text>
+              </Box>
+            ) : (
+              <Box
+                onClick={message("You have no followers")}
+                cursor={"pointer"}
+              >
+                <Text fontSize={{ base: 14, md: 16 }}>
+                  {props?.props?.followers?.length} followers
+                </Text>
+              </Box>
+            )}
             <Box w={1} h={1} bg={"#ffffff"} borderRadius={"full"}></Box>
-            <Text fontSize={{ base: 14, md: 16 }}>
-              {props?.props?.following?.length} following
-            </Text>
+            {props?.props?.following?.length > 0 ? (
+              <Box onClick={followingUsers} cursor={"pointer"}>
+                <Text fontSize={{ base: 14, md: 16 }}>
+                  {props?.props?.following?.length} following
+                </Text>
+              </Box>
+            ) : (
+              <Box
+                onClick={message("You have no following users")}
+                cursor={"pointer"}
+              >
+                <Text fontSize={{ base: 14, md: 16 }}>
+                  {props?.props?.following?.length} following
+                </Text>
+              </Box>
+            )}
           </Flex>
           {props?.props?._id == user._id && (
             <Flex>
@@ -161,6 +221,7 @@ const UserProfile = (props) => {
                     <MenuItem bg={"black"} onClick={onOpen}>
                       Update Profile
                     </MenuItem>
+
                     <MenuItem bg={"black"}>
                       <Flex
                         justifyContent={"space-between"}
@@ -179,6 +240,7 @@ const UserProfile = (props) => {
           )}
         </Flex>
       </VStack>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg={"gray.900"}>
@@ -301,6 +363,66 @@ const UserProfile = (props) => {
               </Stack>
             </form>
           </Stack>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={followingModal.isOpen}
+        onClose={followingModal.onClose}
+        isCentered
+        size={"xl"}
+        maxh={"70vh"}
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent bg={"gray.900"}>
+          <ModalHeader>Followings</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              w={"full"}
+              direction={"column"}
+              justifyContent={"center"}
+              gap={4}
+              py={4}
+            >
+              {allUsers?.map((item, index) => {
+                if (item.followers.includes(props?.props?._id)) {
+                  return <FollowedUser key={index} props={item} />;
+                }
+              })}
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={followerModal.isOpen}
+        onClose={followerModal.onClose}
+        isCentered
+        size={"xl"}
+        maxh={"70vh"}
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent bg={"gray.900"}>
+          <ModalHeader>Followers</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              w={"full"}
+              direction={"column"}
+              justifyContent={"center"}
+              gap={4}
+              py={4}
+            >
+              {allUsers?.map((item, index) => {
+                if (item.following.includes(props?.props?._id)) {
+                  return <FollowedUser key={index} props={item} />;
+                }
+              })}
+            </Flex>
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>

@@ -40,10 +40,9 @@ const createPost = async (req, res) => {
 const getPost = async (req, res) => {
   try {
     const { id } = req.params;
-    const post = await Post.find({ postedBy: id }).populate(
-      "postedBy",
-      "username profilepic"
-    );
+    const post = await Post.find({ postedBy: id })
+      .populate("postedBy", "username profilepic")
+      .sort({ createdAt: -1 });
 
     res.status(200).json(post);
   } catch (error) {

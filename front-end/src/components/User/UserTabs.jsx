@@ -31,7 +31,7 @@ const UserHome = (props) => {
     <Flex w={"full"}>
       <Tabs isFitted variant="enclosed" w={"full"}>
         <TabList>
-          <Tab>
+          <Tab cursor={"default"}>
             <Text fontWeight={"bold"}> Posts</Text>
           </Tab>
         </TabList>
