@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 8000;
 const __dirname = path.resolve();
 
 const corsOptions = {
-  origin: "http://localhost:8000",
+  origin: "*",
   credentials: true,
   optionSuccessStatus: 200,
 };
