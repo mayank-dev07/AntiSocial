@@ -29,7 +29,9 @@ function App() {
 
   return (
     <>
-      <Loader />
+      <div className="w-1/2 md:w-full h-full">
+        <Loader />
+      </div>
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Auth />}>

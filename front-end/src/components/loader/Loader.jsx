@@ -27,8 +27,8 @@ const Loader = () => {
           <svg
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
-            width="200.000000pt"
-            height="200.000000pt"
+            width="100.000000pt"
+            height="100.000000pt"
             viewBox="0 0 500.000000 500.000000"
             preserveAspectRatio="xMidYMid meet"
             className="!object-cover !flex !justify-center !items-center !w-full !h-full"
