@@ -1,6 +1,6 @@
 import axios from "axios";
 import useStore from "../zustand/zustan";
-export const url = "antisocial-k3d7.onrender.com/api/";
+export const url = "/api/";
 
 const IncCount = useStore.getState().increaseCounter;
 const decCount = useStore.getState().decreaseCounter;
