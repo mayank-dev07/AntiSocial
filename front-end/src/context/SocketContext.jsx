@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   const { user } = useStore();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8080/", {
+    const newSocket = io("/", {
       query: {
         userId: user?._id,
       },

@@ -16,7 +16,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/postimg");
+    cb(null, "back-end/uploads/postimg");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
