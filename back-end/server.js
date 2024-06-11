@@ -30,11 +30,7 @@ app.use(cors(corsOptions));
 // Static file serving
 app.use(
   "/back-end/uploads/profileimg",
-  express.static(path.join(__dirname, "back-end/uploads/profileimg"), {
-    setHeaders: (res, path, stat) => {
-      console.log("Serving profile image:", path);
-    },
-  })
+  express.static(path.join(__dirname, "back-end/uploads/profileimg"))
 );
 app.use(
   "/back-end/uploads/postimg",
