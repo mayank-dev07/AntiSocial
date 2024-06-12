@@ -41,6 +41,12 @@ const Create = () => {
     });
   };
 
+  const infoNotify = (message) => {
+    toast.info(message, {
+      theme: "dark",
+    });
+  };
+
   const postTextChange = (e) => {
     setPost({
       ...post,
@@ -50,24 +56,31 @@ const Create = () => {
 
   const createPost = async (e) => {
     e.preventDefault();
-    //console.log(post);
+    // console.log(post);
     try {
       const formData = new FormData();
       formData.append("postedBy", user?._id);
       formData.append("text", post.text);
       formData.append("img", post.Img);
 
-      //console.log(formData);
-      const { res, err } = await addPost(formData);
-      //console.log(res);
-      if (res?.status == 200) {
-        successNotify(res.data.message);
-        onClose();
-        setPost({ text: "" });
-        setPostImg("");
-        isLog();
+      // console.log(formData);
+      if (post.text === "") {
+        return infoNotify("Please write a caption");
       }
-      //console.log(err);
+      if (post.Img === "") {
+        return infoNotify("Please add a image");
+      } else {
+        const { res, err } = await addPost(formData);
+        console.log(res);
+        if (res?.status == 200) {
+          successNotify(res.data.message);
+          onClose();
+          setPost({ text: "" });
+          setPostImg("");
+          isLog();
+        }
+        // console.log(err);
+      }
     } catch (error) {
       //console.error("Error updating profile:", error);
     }
@@ -127,7 +140,6 @@ const Create = () => {
                 placeholder="Caption"
                 onChange={postTextChange}
                 value={post.text}
-                isRequired
                 name="text"
                 _focus={{
                   outline: "none",
@@ -170,9 +182,8 @@ const Create = () => {
                   </Flex>
                   <Input
                     type="file"
-                    accept="image/jpeg"
+                    accept=".jpeg, .jpg, .png,"
                     name="Img"
-                    isRequired
                     hidden
                     ref={fileRef}
                     onChange={handelImgChange}
