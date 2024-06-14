@@ -51,7 +51,7 @@ const SearchUser = () => {
   useEffect(() => {
     getAll();
     getP();
-  }, [search]);
+  }, []);
 
   const followUser = async (id) => {
     const { res, err } = await followUnFollow(id);
@@ -62,17 +62,21 @@ const SearchUser = () => {
   };
 
   const handelChange = (e) => {
-    setSearch({ ...search, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target;
+    setSearch((prevSearch) => ({ ...prevSearch, [name]: value }));
 
-  const searchUser = () => {
-    if (search?.search) {
-      //console.log(search.search);
-      //console.log(users.filter((item) => item.name.startsWith(search.search)));
-      setUsers(users.filter((item) => item.name.startsWith(search.search)));
+    if (value) {
+      setUsers((prevUsers) =>
+        prevUsers.filter((item) => item.name.startsWith(value))
+      );
     } else {
       getAll();
     }
+  };
+
+  const clearSearch = () => {
+    setSearch({ search: "" });
+    getAll();
   };
 
   return (
@@ -85,6 +89,7 @@ const SearchUser = () => {
             type="text"
             placeholder="Search user"
             name="search"
+            value={search.search}
             onChange={handelChange}
           />
           <InputRightAddon p={0} border="none" bg={"black"}>
@@ -97,9 +102,9 @@ const SearchUser = () => {
               _hover={{
                 bg: "gray.900",
               }}
-              onClick={searchUser}
+              onClick={clearSearch}
             >
-              Search
+              Clear
             </Button>
           </InputRightAddon>
         </InputGroup>
@@ -111,8 +116,8 @@ const SearchUser = () => {
           paddingY={{ base: 8, md: 12 }}
         >
           <Stack w={"full"}>
-            {(users.length === 0 ||
-              (users.length === 1 && users[0]._id !== user?._id)) && (
+            {(users?.length === 0 ||
+              (users?.length === 1 && users[0]?._id === user?._id)) && (
               <Text textAlign={"center"} fontSize={"xl"}>
                 User not found
               </Text>
