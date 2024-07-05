@@ -21,8 +21,8 @@ import {
 } from "@chakra-ui/react";
 import Message from "./Message.jsx";
 import { ImagePlus, MessageSquareQuote, Send } from "lucide-react";
-import { url } from "../../axios/imageurl";
-import { getMessages, sendMessages } from "../../axios/request";
+import { url } from "../../axios/imageurl.js";
+import { getMessages, sendMessages } from "../../axios/request.js";
 import { useSocket } from "../../context/SocketContext.jsx";
 // import useStore from "../../zustand/zustan.js";
 

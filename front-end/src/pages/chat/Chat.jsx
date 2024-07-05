@@ -18,10 +18,10 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { MessageSquareQuote, Search, Send, SendHorizonal } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { Search } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import FollowedUser from "../../components/User/FollowedUser";
-import { getAllUser, getConversations, getMessages } from "../../axios/request";
+import { getAllUser, getConversations } from "../../axios/request";
 import useStore from "../../zustand/zustan";
 import ConversationUser from "../../components/User/ConversationUser";
 import ChatArea from "../../components/message/ChatArea";
@@ -30,6 +30,7 @@ import { useSocket } from "../../context/SocketContext";
 const Chat = () => {
   const [users, setUsers] = useState(null);
   const [allConvo, setAllConversations] = useState([]);
+  const [filteredConvo, setFilteredConvo] = useState([]);
   const [convo, setConversations] = useState();
   const [search, setSearch] = useState("");
   const [originalUsers, setOriginalUsers] = useState([]);
@@ -50,8 +51,26 @@ const Chat = () => {
     };
   }, [width]);
 
-  const handelChange = (e) => {
-    setSearch(e.target.value);
+  const handleChange = (e) => {
+    const searchValue = e.target.value;
+    setSearch(searchValue);
+
+    if (searchValue) {
+      const filteredUsers = originalUsers.filter((item) =>
+        item.username.toLowerCase().startsWith(searchValue.toLowerCase())
+      );
+      setUsers(filteredUsers);
+
+      const filteredConversations = allConvo.filter((item) =>
+        item.participants[0].username
+          .toLowerCase()
+          .startsWith(searchValue.toLowerCase())
+      );
+      setFilteredConvo(filteredConversations);
+    } else {
+      setUsers(null);
+      setFilteredConvo(allConvo);
+    }
   };
 
   const getAll = async () => {
@@ -65,6 +84,7 @@ const Chat = () => {
     const { res, err } = await getConversations();
     if (res.status == 200) {
       setAllConversations(res.data);
+      setFilteredConvo(res.data);
     }
   };
 
@@ -75,21 +95,6 @@ const Chat = () => {
 
   const setConvo = (item) => {
     setConversations(item);
-  };
-
-  const searchUser = () => {
-    const filteredUsers = originalUsers.filter((item) =>
-      item.username.startsWith(search)
-    );
-
-    if (filteredUsers) {
-      setUsers(filteredUsers);
-    }
-
-    setSearch("");
-    if (!search) {
-      setUsers(null);
-    }
   };
 
   const showMessage = (item) => {
@@ -120,30 +125,15 @@ const Chat = () => {
                 <Input
                   variant="outlined"
                   type="text"
-                  placeholder="Search user"
+                  placeholder="Search user or conversation"
                   name="search"
                   value={search}
-                  onChange={handelChange}
+                  onChange={handleChange}
                 />
-                <InputRightAddon p={0} border="none" bg={"black"}>
-                  <Button
-                    size="md"
-                    borderLeftRadius={0}
-                    borderRightRadius={3.3}
-                    border="1px solid #000000"
-                    bg={"black"}
-                    _hover={{
-                      bg: "black",
-                    }}
-                    onClick={searchUser}
-                  >
-                    Search
-                  </Button>
-                </InputRightAddon>
               </InputGroup>
 
               <Stack>
-                {allConvo.length === 0 ? (
+                {filteredConvo.length === 0 ? (
                   <Text
                     textAlign={"center"}
                     fontSize={"xl"}
@@ -162,7 +152,7 @@ const Chat = () => {
                     All Conversations
                   </Text>
                 )}
-                {allConvo.map((item, index) => (
+                {filteredConvo.map((item, index) => (
                   <Box key={index} onClick={() => showMessage(item)} w={"full"}>
                     <ConversationUser
                       props={item}
@@ -172,39 +162,32 @@ const Chat = () => {
                 ))}
               </Stack>
               <Stack>
-                {users && users?.length === 0 && (
-                  <>
-                    <Text textAlign={"center"} fontSize={"xl"}>
-                      User not found
-                    </Text>
-                  </>
-                )}
-
-                {users?.length !== 0 && users?.length != null && (
-                  <Text
-                    textAlign={"center"}
-                    fontSize={"lg"}
-                    fontWeight={"bold"}
-                    pt={12}
-                  >
-                    All Users
+                {users && users.length === 0 && (
+                  <Text textAlign={"center"} fontSize={"xl"}>
+                    User not found
                   </Text>
                 )}
+
                 {users?.map((item, index) => {
-                  // //console.log(item);
                   if (item.followers.includes(user._id)) {
                     return (
-                      <Box
-                        key={index}
-                        onClick={() => showMessage(item)}
-                        w={"full"}
-                      >
-                        <FollowedUser
+                      <>
+                        <Text
+                          textAlign={"center"}
+                          fontSize={"lg"}
+                          fontWeight={"bold"}
+                          pt={12}
+                        >
+                          All Users
+                        </Text>
+                        <Box
                           key={index}
-                          props={item}
-                          // isOnline={onlineUsers.includes(item._id)}
-                        />
-                      </Box>
+                          onClick={() => showMessage(item)}
+                          w={"full"}
+                        >
+                          <FollowedUser key={index} props={item} />
+                        </Box>
+                      </>
                     );
                   }
                 })}
@@ -219,7 +202,6 @@ const Chat = () => {
 
       <Modal
         onClose={onClose}
-        // finalFocusRef={btnRef}
         isOpen={isOpen}
         scrollBehavior={"inside"}
         size={"xxl"}
@@ -231,9 +213,6 @@ const Chat = () => {
           <ModalBody>
             <ChatArea props={convo} fun={conversations} />
           </ModalBody>
-          {/* <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter> */}
         </ModalContent>
       </Modal>
     </>
