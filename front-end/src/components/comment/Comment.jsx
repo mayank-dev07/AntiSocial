@@ -12,7 +12,7 @@ const Comment = (props) => {
         <Flex direction={"column"} alignItems={"center"}>
           <Avatar
             name={props?.props?.username}
-            src={`${url + props?.props?.profilepic}`}
+            src={`${props?.props?.profilepic}`}
             size={{ base: "md", md: "lg" }}
           />
         </Flex>

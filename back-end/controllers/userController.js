@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+import { v2 as cloudinary } from "cloudinary";
 import jwt from "jsonwebtoken";
 
 const setCookie = (userId, res) => {
@@ -134,38 +135,46 @@ const updateUser = async (req, res) => {
       bio,
       id,
     } = req.body;
+
     let currentUser = await User.findById(req.user._id);
 
-    if (id != req.user._id.toString()) {
-      return res.status(400).json({ message: "can't update profile" });
+    if (id !== req.user._id.toString()) {
+      return res.status(400).json({ message: "Can't update profile" });
     }
+
     if (currentUser) {
       if (password) {
-        if (password == confirmPassword) {
+        if (password === confirmPassword) {
           const salt = await bcrypt.genSalt(10);
-          const hashedpassword = await bcrypt.hash(password, salt);
-          currentUser.password = hashedpassword;
+          const hashedPassword = await bcrypt.hash(password, salt);
+          currentUser.password = hashedPassword;
         } else {
           return res
             .status(400)
             .json({ message: "Confirm Password didn't match with Password" });
         }
       }
+
       currentUser.name = name || currentUser.name;
       currentUser.email = email || currentUser.email;
       currentUser.username = username || currentUser.username;
       currentUser.bio = bio || currentUser.bio;
-      currentUser.password = password || currentUser.password;
 
-      if (req.file) {
-        currentUser.profilepic = profilepic || req.file.path;
+      if (profilepic) {
+        const uploadResponse = await cloudinary.uploader.upload(profilepic, {
+          folder: "profile_pics",
+        });
+        currentUser.profilepic = uploadResponse.secure_url;
       }
 
       currentUser = await currentUser.save();
-      res.status(200).json({ message: "profile Updated" });
+      res.status(200).json({ message: "Profile updated" });
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    console.error("Error:", error);
+    res.status(500).json({ message: error.message });
   }
 };
 

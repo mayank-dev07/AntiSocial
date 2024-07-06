@@ -8,7 +8,6 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import React from "react";
-import { url } from "../../axios/imageurl";
 import { CheckCheck, MessageCircleMore } from "lucide-react";
 import useStore from "../../zustand/zustan";
 
@@ -32,7 +31,7 @@ const ConversationUser = (props) => {
                   cursor={"pointer"}
                   size={{ base: "sm", md: "sm", xl: "md" }}
                   name={props?.props?.participants[0].name}
-                  src={`${url + item.profilepic}`}
+                  src={`${item.profilepic}`}
                 >
                   {props?.isOnline && (
                     <AvatarBadge boxSize={"1em"} bg={"green"} />

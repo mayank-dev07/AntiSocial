@@ -21,10 +21,9 @@ import {
 } from "@chakra-ui/react";
 import Message from "./Message.jsx";
 import { ImagePlus, MessageSquareQuote, Send } from "lucide-react";
-import { url } from "../../axios/imageurl.js";
 import { getMessages, sendMessages } from "../../axios/request.js";
 import { useSocket } from "../../context/SocketContext.jsx";
-// import useStore from "../../zustand/zustan.js";
+import { toast } from "react-toastify";
 
 const ChatArea = (props) => {
   const [message, setMessage] = useState([]);
@@ -51,6 +50,31 @@ const ChatArea = (props) => {
 
     return () => socket?.off("newMessage");
   }, [socket, message]);
+
+  const successNotify = (message) => {
+    toast.success(message, {
+      theme: "dark",
+    });
+  };
+
+  const errorNotify = (message) => {
+    toast.error(message, {
+      theme: "dark",
+    });
+  };
+
+  const infoNotify = (message) => {
+    toast.info(message, {
+      theme: "dark",
+    });
+  };
+
+  const postTextChange = (e) => {
+    setPost({
+      ...post,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const scrollToBottom = () => {
     if (Ref.current) {
@@ -95,6 +119,9 @@ const ChatArea = (props) => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+    if (data.message === "") {
+      return infoNotify("Please write a message");
+    }
     const { res, err } = await sendMessages(data);
     if (res?.status === 201) {
       setData({ id: "", message: "" });
@@ -117,22 +144,29 @@ const ChatArea = (props) => {
 
   const handelImgChange = (e) => {
     const file = e.target.files[0];
-    //console.log(file);
-    setImageMessage({
-      ...imageMessage,
-      [e.target.name]: file,
-    });
-    setImage(URL.createObjectURL(file));
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImage(reader.result);
+        setImageMessage({
+          ...imageMessage,
+          [e.target.name]: reader.result,
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const sendImage = async () => {
-    // //console.log(imageText);
-    //console.log(imageMessage);
-    const formData = new FormData();
-    formData.append("Img", imageMessage.Img);
-    formData.append("message", imageMessage.message);
-    formData.append("id", imageMessage.id);
-    const { res, err } = await sendMessages(formData);
+    if (imageMessage.text === "") {
+      return infoNotify("Please write a message");
+    }
+    if (imageMessage.Img === "") {
+      return infoNotify("Please add an image");
+    }
+    const { res, err } = await sendMessages(imageMessage);
     if (res?.status === 201) {
       onClose();
       setData({ id: "", message: "" });
@@ -143,7 +177,6 @@ const ChatArea = (props) => {
       }
       props.fun();
     }
-    // //console.log(e);
   };
 
   return (
@@ -179,12 +212,9 @@ const ChatArea = (props) => {
                     : props?.props?.username
                 }
                 src={`${
-                  url +
-                  `${
-                    props?.props?.participants
-                      ? props?.props?.participants[0]?.profilepic
-                      : props?.props?.profilepic
-                  }`
+                  props?.props?.participants
+                    ? props?.props?.participants[0]?.profilepic
+                    : props?.props?.profilepic
                 }`}
               />
               <Box>

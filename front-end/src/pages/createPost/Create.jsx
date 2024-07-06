@@ -41,6 +41,12 @@ const Create = () => {
     });
   };
 
+  const errorNotify = (message) => {
+    toast.error(message, {
+      theme: "dark",
+    });
+  };
+
   const infoNotify = (message) => {
     toast.info(message, {
       theme: "dark",
@@ -53,25 +59,19 @@ const Create = () => {
       [e.target.name]: e.target.value,
     });
   };
-
   const createPost = async (e) => {
     e.preventDefault();
-    // console.log(post);
-    try {
-      const formData = new FormData();
-      formData.append("postedBy", user?._id);
-      formData.append("text", post.text);
-      formData.append("img", post.Img);
 
-      // console.log(formData);
-      if (post.text === "") {
+    const newPost = { ...post, postedBy: user?._id };
+
+    try {
+      if (newPost.text === "") {
         return infoNotify("Please write a caption");
       }
-      if (post.Img === "") {
-        return infoNotify("Please add a image");
+      if (newPost.Img === "") {
+        return infoNotify("Please add an image");
       } else {
-        const { res, err } = await addPost(formData);
-        console.log(res);
+        const { res, err } = await addPost(newPost);
         if (res?.status == 200) {
           successNotify(res.data.message);
           onClose();
@@ -79,10 +79,13 @@ const Create = () => {
           setPostImg("");
           isLog();
         }
-        // console.log(err);
+        if (err) {
+          console.log(err);
+          errorNotify(err.response.data.message);
+        }
       }
     } catch (error) {
-      //console.error("Error updating profile:", error);
+      console.error("Error creating post:", error);
     }
   };
 
@@ -98,12 +101,19 @@ const Create = () => {
 
   const handelImgChange = (e) => {
     const file = e.target.files[0];
-    //console.log(file);
-    setPost({
-      ...post,
-      [e.target.name]: file,
-    });
-    setPostImg(URL.createObjectURL(file));
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPostImg(reader.result);
+        setPost({
+          ...post,
+          [e.target.name]: reader.result,
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -111,8 +121,6 @@ const Create = () => {
       <Tooltip hasArrow label="Add Post" bg="black" color="white" rounded={5}>
         <SquarePlus color="white" cursor={"pointer"} onClick={onOpen} />
       </Tooltip>
-
-      {/* Modal  */}
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered size={"3xl"}>
         <ModalOverlay />
@@ -130,7 +138,7 @@ const Create = () => {
           <Divider orientation="horizontal" />
 
           <ModalBody>
-            <form onSubmit={createPost} encType="multipart/form-data">
+            <form onSubmit={createPost}>
               <Flex>
                 <Text py={4} fontSize={16} fontWeight={"semibold"}>
                   Add a caption for your post
@@ -182,7 +190,6 @@ const Create = () => {
                   </Flex>
                   <Input
                     type="file"
-                    accept=".jpeg, .jpg, .png,"
                     name="Img"
                     hidden
                     ref={fileRef}

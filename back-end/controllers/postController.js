@@ -1,39 +1,38 @@
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const createPost = async (req, res) => {
   try {
-    const { postedBy, text } = req.body;
+    const { postedBy, text, Img } = req.body;
+    console.log(req.body);
 
-    let img = "";
-
-    if (req.file) {
-      img = req.file.path;
-    } else {
-      if (req.body.img) {
-        img = req.body.img;
-      }
-    }
     if (!postedBy || !text) {
-      return res.status(400).json({ message: "fill all the details" });
+      return res.status(400).json({ message: "Please fill all the details" });
     }
 
     if (postedBy !== req.user._id.toString()) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const newPost = Post({
+    if (!Img) {
+      return res.status(400).json({ message: "Please add an image" });
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(Img);
+    const imageUrl = uploadResponse.secure_url;
+
+    const newPost = new Post({
       postedBy,
       text,
-      img,
+      img: imageUrl,
     });
 
     await newPost.save();
-    if (newPost) {
-      res.status(200).json({ message: "Post added" });
-    }
+    res.status(200).json({ message: "Post added successfully" });
   } catch (error) {
-    res.status(500).json({ message: error });
+    console.error("Error creating post:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

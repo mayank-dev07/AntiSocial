@@ -10,7 +10,7 @@ const Likes = (props) => {
         <Flex direction={"column"} alignItems={"center"}>
           <Avatar
             name={props?.props?.name}
-            src={`${url + props?.props?.profilepic}`}
+            src={`${props?.props?.profilepic}`}
             size={{ base: "md", md: "lg" }}
           />
         </Flex>

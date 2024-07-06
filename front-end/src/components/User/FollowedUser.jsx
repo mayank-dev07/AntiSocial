@@ -24,10 +24,7 @@ const FollowedUser = (props) => {
               cursor={"pointer"}
               size={{ base: "sm", md: "md" }}
               name={props?.props?.name}
-              src={`${url + props?.props?.profilepic}`}
-              // onClick={() => {
-              //   navigate(`/home/profile/${item?.username}`);
-              // }}
+              src={`${props?.props?.profilepic}`}
             />
             <Box>
               <Text fontSize={{ base: 14, md: 18 }} fontWeight={"bold"}>

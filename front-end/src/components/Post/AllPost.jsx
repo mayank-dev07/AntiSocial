@@ -63,60 +63,42 @@ const AllPost = (props) => {
 
   const addCommentText = async (e) => {
     e.preventDefault();
-    //console.log(comment);
     const { res, err } = await addComment(comment);
-    //console.log(res);
     if (res?.status == 200) {
       onClose();
       setComment({ text: "", id: "" });
       props.fun();
     }
-    //console.log(err);
   };
 
   const createPost = async () => {
-    // e.preventDefault();
-    //console.log(post.img);
+    const newPost = { ...post, postedBy: user?._id };
     try {
-      const formData = new FormData();
-      formData.append("postedBy", user?._id);
-      formData.append("text", post.text);
-      formData.append("img", post.img);
-
-      //console.log(formData);
-      const { res, err } = await addPost(formData);
-      //console.log(res);
+      const { res, err } = await addPost(newPost);
       if (res?.status == 200) {
         successNotify("This post is re-posted by you");
         repeatModal.onClose();
       }
-      //console.log(err);
-    } catch (error) {
-      //console.error("Error updating profile:", error);
-    }
+    } catch (error) {}
   };
 
   const handleTrash = (id) => {
-    //console.log(id);
     setDeletePostId(id);
     trashModal.onOpen();
   };
 
   const handleRepeat = (post) => {
-    //console.log(post);
     setPost(post);
     repeatModal.onOpen();
   };
 
   const deletePost = async (id) => {
     const { res, err } = await deletefeed(id);
-    //console.log(res);
     if (res.status == 200) {
       successNotify(res.data.message);
       setDeletePostId("");
       trashModal.onClose();
     }
-    //console.log(err);
     props.fun();
   };
 
@@ -126,7 +108,7 @@ const AllPost = (props) => {
         <Flex direction={"column"} alignItems={"center"}>
           <Avatar
             name={props?.data?.postedBy?.username}
-            src={`${url + props?.data?.postedBy?.profilepic}`}
+            src={`${props?.data?.postedBy?.profilepic}`}
             size={{ base: "sm", md: "md" }}
             cursor={"pointer"}
             onClick={() => {
@@ -149,7 +131,6 @@ const AllPost = (props) => {
                 <Text fontSize={"small"} paddingX={2}>
                   {formatDistanceToNow(new Date(props?.data?.createdAt))} ago
                 </Text>
-                {/* <Ellipsis /> */}
               </Flex>
             </Flex>
 
@@ -162,7 +143,7 @@ const AllPost = (props) => {
                 justifyContent={"center"}
               >
                 <Image
-                  src={`${url + props?.data?.img}`}
+                  src={`${props?.data?.img}`}
                   alt="post image"
                   w={"fit-content"}
                   maxH={"60vh"}
@@ -195,17 +176,14 @@ const AllPost = (props) => {
             {props?.data?.postedBy._id !== user?._id ? (
               <Repeat
                 cursor={"pointer"}
-                // onClick={(e) => createPost(props?.data, e)}
                 onClick={(e) => handleRepeat(props?.data)}
               />
             ) : (
               <Trash2
                 cursor={"pointer"}
-                // onClick={() => deletePost(post?._id)}
                 onClick={() => handleTrash(props?.data?._id)}
               />
             )}
-            {/* <Send cursor={"pointer"} /> */}
           </Flex>
           <Flex gap={2} alignItems={"center"}>
             <Text color={"darkgrey"}>{props?.data?.likes?.length} Likes</Text>

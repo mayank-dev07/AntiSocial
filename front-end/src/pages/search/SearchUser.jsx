@@ -138,7 +138,7 @@ const SearchUser = () => {
                           cursor={"pointer"}
                           size={{ base: "sm", md: "md" }}
                           name={item.name}
-                          src={`${url + item?.profilepic}`}
+                          src={`${item?.profilepic}`}
                           onClick={() => {
                             navigate(`/home/profile/${item?.username}`);
                           }}

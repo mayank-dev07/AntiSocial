@@ -8,6 +8,7 @@ import messageRouter from "./routes/messageRoutes.js";
 import cors from "cors";
 import { app, server } from "./socket/socket.js";
 import path from "path";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 connetDB();
@@ -21,25 +22,35 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // Middlewares
-app.use(express.json());
+app.use(
+  express.json({
+    limit: "80mb",
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
 // Static file serving
-app.use(
-  "/back-end/uploads/profileimg",
-  express.static(path.join(__dirname, "back-end/uploads/profileimg"))
-);
-app.use(
-  "/back-end/uploads/postimg",
-  express.static(path.join(__dirname, "back-end/uploads/postimg"))
-);
-app.use(
-  "/back-end/uploads/messageimg",
-  express.static(path.join(__dirname, "back-end/uploads/messageimg"))
-);
+// app.use(
+//   "/back-end/uploads/profileimg",
+//   express.static(path.join(__dirname, "back-end/uploads/profileimg"))
+// );
+// app.use(
+//   "/back-end/uploads/postimg",
+//   express.static(path.join(__dirname, "back-end/uploads/postimg"))
+// );
+// app.use(
+//   "/back-end/uploads/messageimg",
+//   express.static(path.join(__dirname, "back-end/uploads/messageimg"))
+// );
 
 // Routes
 app.use("/api/user", userRouter);

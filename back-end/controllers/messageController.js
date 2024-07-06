@@ -1,18 +1,18 @@
 import Conversation from "../models/conversationModel.js";
 import Message from "../models/messageModel.js";
 import { getRecipientSocketId, io } from "../socket/socket.js";
+import { v2 as cloudinary } from "cloudinary";
+
 const sendMessage = async (req, res) => {
   try {
-    const { id, message } = req.body;
+    const { id, message, Img } = req.body;
     const senderId = req.user._id;
 
-    let Img = "";
-    if (req.file) {
-      Img = req.file.path;
-    } else {
-      if (req.body.Img) {
-        Img = req.body.Img;
-      }
+    let messageImg = "";
+    if (Img) {
+      const uploadResponse = await cloudinary.uploader.upload(Img);
+      const imageUrl = uploadResponse.secure_url;
+      messageImg = imageUrl;
     }
 
     let conversation = await Conversation.findOne({
@@ -25,7 +25,7 @@ const sendMessage = async (req, res) => {
         lastMessage: {
           text: message,
           sender: senderId,
-          Img: Img,
+          Img: messageImg,
         },
       });
 
@@ -36,7 +36,7 @@ const sendMessage = async (req, res) => {
       conversationId: conversation._id,
       sender: senderId,
       text: message,
-      Img: Img,
+      Img: messageImg,
     });
 
     await newMessage.save();

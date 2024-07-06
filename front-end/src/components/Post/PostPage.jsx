@@ -46,6 +46,8 @@ const PostPage = () => {
   const { user } = useStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const trashModal = useDisclosure();
+  const repeatModal = useDisclosure();
+
   const [deletePostId, setDeletePostId] = useState("");
   const [postId, setPostId] = useState();
   const [comment, setComment] = useState({ text: "", id: "" });
@@ -57,12 +59,10 @@ const PostPage = () => {
 
   useEffect(() => {
     getOnePost();
-    //console.log(post);
   }, [postId]);
 
   const likeUnlike = async (id) => {
     const { res, err } = await likePost(id);
-    //console.log(res);
     if (res?.status == 200) {
       getOnePost();
     }
@@ -70,7 +70,6 @@ const PostPage = () => {
 
   const getOnePost = async () => {
     const { res, err } = await getUserPost(postId);
-    //console.log(res.data);
     if (res?.status == 200) {
       setPost(res.data[0]);
     }
@@ -87,36 +86,34 @@ const PostPage = () => {
 
   const addCommentText = async (e) => {
     e.preventDefault();
-    //console.log(comment);
     const { res, err } = await addComment(comment);
-    //console.log(res);
     if (res?.status == 200) {
       onClose();
       setComment({ text: "", id: "" });
       getOnePost();
     }
-    //console.log(err);
   };
 
-  const createPost = async (post, e) => {
+  const handleRepeat = (post) => {
+    setPost(post); // Set the post state with the post data
+    repeatModal.onOpen(); // Open the repeat modal
+  };
+
+  const createPost = async (e) => {
     e.preventDefault();
-    //console.log(post.img);
     try {
       const formData = new FormData();
       formData.append("postedBy", user?._id);
       formData.append("text", post.text);
       formData.append("img", post.img);
 
-      //console.log(formData);
       const { res, err } = await addPost(formData);
-      //console.log(res);
       if (res?.status == 200) {
         successNotify("This post is re-posted by you");
         onClose();
       }
-      //console.log(err);
     } catch (error) {
-      //console.error("Error updating profile:", error);
+      console.error("Error reposting:", error);
     }
   };
 
@@ -125,8 +122,8 @@ const PostPage = () => {
       theme: "dark",
     });
   };
+
   const handleTrash = (id) => {
-    //console.log(id);
     setDeletePostId(id);
     trashModal.onOpen();
   };
@@ -139,7 +136,6 @@ const PostPage = () => {
       setDeletePostId("");
       trashModal.onClose();
     }
-    //console.log(err);
   };
 
   return (
@@ -163,7 +159,7 @@ const PostPage = () => {
                   <Flex gap={4} alignItems={"center"}>
                     <Avatar
                       name={post?.postedBy?.username}
-                      src={`${url + post?.postedBy?.profilepic}`}
+                      src={`${post?.postedBy?.profilepic}`}
                       size={{ base: "md", md: "lg" }}
                     />
                     <Text fontWeight={"bold"} fontSize={{ base: 18, md: 20 }}>
@@ -176,7 +172,6 @@ const PostPage = () => {
                         `${formatDistanceToNow(new Date(post?.createdAt))} ago
                           `}
                     </Text>
-                    {/* <Ellipsis /> */}
                   </Flex>
                 </Flex>
                 <Box cursor={"pointer"}>
@@ -190,8 +185,8 @@ const PostPage = () => {
                       justifyContent={"center"}
                     >
                       <Image
-                        src={`${url + post?.img}`}
-                        alt={`${url + post?.img}`}
+                        src={`${post?.img}`}
+                        alt={`${post?.img}`}
                         w={"fit-content"}
                         maxH={{ base: "30vh", lg: "40vh" }}
                       />
@@ -228,16 +223,14 @@ const PostPage = () => {
                   {post?.postedBy._id !== user?._id ? (
                     <Repeat
                       cursor={"pointer"}
-                      onClick={(e) => createPost(post, e)}
+                      onClick={() => handleRepeat(post)} // Pass `post` object to handleRepeat function
                     />
                   ) : (
                     <Trash2
                       cursor={"pointer"}
-                      // onClick={() => deletePost(post?._id)}
                       onClick={() => handleTrash(post?._id)}
                     />
                   )}
-                  {/* <Send cursor={"pointer"} /> */}
                 </Flex>
                 <Flex gap={2} alignItems={"center"}>
                   <Text color={"darkgrey"}>{post?.likes?.length} Likes</Text>
@@ -377,6 +370,37 @@ const PostPage = () => {
                 <Button type="submit">Add Comment</Button>
               </Flex>
             </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={repeatModal.isOpen}
+        onClose={repeatModal.onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bg={"gray.900"}>
+          <ModalHeader>Repost this post?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              direction={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={4}
+              py={4}
+            >
+              <Text fontSize={20}>This action cannot be undone.</Text>
+              <Button
+                type="button"
+                onClick={(e) => createPost(e)}
+                bg={"blue.500"}
+                _hover={{ bg: "blue.600" }}
+              >
+                Re-Post
+              </Button>
+            </Flex>
           </ModalBody>
         </ModalContent>
       </Modal>

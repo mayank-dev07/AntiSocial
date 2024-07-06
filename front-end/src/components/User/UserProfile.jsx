@@ -82,41 +82,38 @@ const UserProfile = (props) => {
   const updateProfile = async (e) => {
     e.preventDefault();
 
-    try {
-      const formData = new FormData();
-      formData.append("username", update.username);
-      formData.append("name", update.name);
-      formData.append("email", update.email);
-      formData.append("bio", update.bio);
-      formData.append("profilepic", update.profilepic);
-      formData.append("id", user._id);
+    const updatedProfile = { ...update, id: user._id };
 
-      const { res, err } = await updateUserProfile(formData);
-      if (res.status === 200) {
-        if (update.username) {
-          navigate(`/home/profile/${update.username}`);
-        }
-        //console.log(res);
-        successNotify(res.data.message);
-        onClose();
-        setTimeout(() => {
-          props.fun();
-        }, 2000);
-      } else {
-        //console.log(err);
+    const { res, err } = await updateUserProfile(updatedProfile);
+    if (res.status === 200) {
+      if (update.username) {
+        navigate(`/home/profile/${update.username}`);
       }
-    } catch (error) {
-      //console.error("Error updating profile:", error);
+      successNotify(res.data.message);
+      onClose();
+      setTimeout(() => {
+        props.fun();
+      }, 2000);
+    } else {
+      console.log(err);
     }
   };
 
   const handelImgChange = (e) => {
     const file = e.target.files[0];
-    setUpdate({
-      ...update,
-      [e.target.name]: file,
-    });
-    setImage(URL.createObjectURL(file));
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImage(reader.result);
+        setUpdate({
+          ...update,
+          [e.target.name]: reader.result,
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const handelChange = (e) => {
@@ -166,7 +163,7 @@ const UserProfile = (props) => {
           <Box>
             <Avatar
               name={`${props?.props?.name}`}
-              src={`${url + props?.props?.profilepic}`}
+              src={`${props?.props?.profilepic}`}
               size={{ base: "lg", md: "xl" }}
             />
           </Box>
