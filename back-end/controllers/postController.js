@@ -5,7 +5,6 @@ import { v2 as cloudinary } from "cloudinary";
 const createPost = async (req, res) => {
   try {
     const { postedBy, text, Img } = req.body;
-    console.log(req.body);
 
     if (!postedBy || !text) {
       return res.status(400).json({ message: "Please fill all the details" });
