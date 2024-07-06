@@ -223,7 +223,7 @@ const PostPage = () => {
                   {post?.postedBy._id !== user?._id ? (
                     <Repeat
                       cursor={"pointer"}
-                      onClick={() => handleRepeat(post)} // Pass `post` object to handleRepeat function
+                      onClick={() => handleRepeat(post)}
                     />
                   ) : (
                     <Trash2
@@ -260,12 +260,7 @@ const PostPage = () => {
               minH={{ base: "full", lg: "70vh" }}
             >
               <Tabs variant="enclosed">
-                <TabList
-                  zIndex={10}
-                  w={{ base: "full", lg: "30%" }}
-                  bg={"black"}
-                  position={"fixed"}
-                >
+                <TabList zIndex={10} w={{ base: "full" }} bg={"black"}>
                   <Tab w={"50%"}>Likes</Tab>
                   <Tab w={"50%"}>Comments</Tab>
                 </TabList>

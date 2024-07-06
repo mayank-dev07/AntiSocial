@@ -192,6 +192,7 @@ const Create = () => {
                     type="file"
                     name="Img"
                     hidden
+                    accept="image/*, .jpg, .jpeg, .png"
                     ref={fileRef}
                     onChange={handelImgChange}
                   ></Input>
